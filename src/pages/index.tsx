@@ -15,7 +15,9 @@ const Home: NextPage = () => {
       >
         <Box>Logo aqui</Box>
         <Link href="/login">
-          <Button value="Entrar" />
+          <a>
+            <Button value="Entrar" />
+          </a>
         </Link>
       </Flex>
     </Container>
