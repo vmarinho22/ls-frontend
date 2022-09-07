@@ -1,24 +1,23 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
 
-axios.interceptors.request.use((request: AxiosRequestConfig) => {
-  const token = sessionStorage.getItem('token');
+axiosInstance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-  if (request.headers === null) {
-    request.headers = {};
-
-    if (token !== null) {
-      request.headers.Authorization = `Bearer ${token}`;
-    }
+axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
+  if (request.headers != null) {
+    request.headers.Authorization = `Bearer ${
+      sessionStorage.getItem('token') ?? ''
+    }`;
   }
 
   return request;
 });
 
-axios.interceptors.response.use((response: AxiosResponse) => {
-  console.log(response);
-  return response;
-});
+axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => response.data
+);
 
-export default axios;
+export default axiosInstance;
