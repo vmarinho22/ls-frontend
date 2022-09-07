@@ -9,10 +9,22 @@ interface Props {
   icon?: ReactElement<any>;
   iconPosition?: IconPosition;
   width?: number | string;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 const DefaultButton: FC<Props> = (props: Props) => {
-  const { click, value, icon, iconPosition = 'right', width = 'auto' } = props;
+  const {
+    click,
+    value,
+    icon,
+    iconPosition = 'right',
+    width = 'auto',
+    isDisabled = false,
+    isLoading = false,
+    loadingText = '',
+  } = props;
 
   return (
     <Button
@@ -26,6 +38,9 @@ const DefaultButton: FC<Props> = (props: Props) => {
       onClick={click}
       leftIcon={iconPosition === 'left' ? icon : undefined}
       rightIcon={iconPosition === 'right' ? icon : undefined}
+      isLoading={isLoading}
+      loadingText={loadingText}
+      isDisabled={isDisabled}
     >
       {value}
     </Button>

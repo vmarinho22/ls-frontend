@@ -9,6 +9,9 @@ interface Props {
   icon?: ReactElement<any>;
   iconPosition?: IconPosition;
   width?: number | string;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 const Button: FC<Props> = (props: Props) => <DefaultButton {...props} />;
