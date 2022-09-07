@@ -11,6 +11,6 @@ interface Props {
   width?: number | string;
 }
 
-const Button: FC<any> = (props: Props) => <DefaultButton {...props} />;
+const Button: FC<Props> = (props: Props) => <DefaultButton {...props} />;
 
 export default Button;
