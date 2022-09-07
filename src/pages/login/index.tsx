@@ -15,6 +15,11 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import Button from '@components/Button';
+import ThemeToggle from '@components/ThemeToggle';
+import defaultToastOptions from '@config/toast/index';
+import { type User } from '@globalTypes/user';
+import axios from '@services/axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -23,11 +28,6 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import Wave from 'react-wavify';
-import Button from '../../components/Button';
-import ThemeToggle from '../../components/ThemeToggle';
-import axios from '../../services/axios';
-import { User } from '../../types/type';
-import defaultToastOptions from './../../config/toast/index';
 
 interface Form {
   username: string;
@@ -97,7 +97,7 @@ const LoginPage: NextPage = () => {
     if (user != null) {
       const data: User = await axios.get(`/users/${user}`);
       // TODO: puxar perfil do usuário
-      if (data.isBlocked) {
+      if (data.isBlocked === true) {
         throw new Error(`User ${user} está bloqueado`);
       }
 

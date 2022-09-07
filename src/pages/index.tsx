@@ -1,9 +1,9 @@
 import { Box, Container, Flex, ScaleFade } from '@chakra-ui/react';
+import Button from '@components/Button';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Wave from 'react-wavify';
-import Button from '../components/Button';
 
 const Home: NextPage = () => {
   return (
