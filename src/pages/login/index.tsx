@@ -3,6 +3,7 @@ import {
   Container,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   IconButton,
@@ -27,8 +28,17 @@ interface Form {
   password: string;
 }
 
+interface FormError {
+  username: boolean;
+  password: boolean;
+}
+
 const LoginPage: NextPage = () => {
   const [form, setForm] = useState<Form>({ username: '', password: '' });
+  const [formError, setFormError] = useState<FormError>({
+    username: false,
+    password: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
@@ -36,6 +46,11 @@ const LoginPage: NextPage = () => {
   const handleUpdateForm = (event: SyntheticEvent): void => {
     const target = event.target as HTMLInputElement;
     setForm((prev) => ({ ...prev, [target.id]: target.value }));
+  };
+
+  const handleUpdateFormError = (event: SyntheticEvent): void => {
+    const target = event.target as HTMLInputElement;
+    setFormError((prev) => ({ ...prev, [target.id]: target.value === '' }));
   };
 
   const handleSubmit = (event: SyntheticEvent): void => {
@@ -63,13 +78,23 @@ const LoginPage: NextPage = () => {
           <br />
           <form>
             <VStack spacing={3}>
-              <FormControl isRequired>
+              <FormControl isRequired isInvalid={formError.username}>
                 <FormLabel htmlFor="username" color={color} opacity={opacity}>
                   E-mail ou username
                 </FormLabel>
-                <Input id="username" type="text" onChange={handleUpdateForm} />
+                <Input
+                  id="username"
+                  type="text"
+                  onChange={handleUpdateForm}
+                  onBlur={handleUpdateFormError}
+                />
+                {formError.username && (
+                  <FormErrorMessage>
+                    O campo usuário não pode ser vazio
+                  </FormErrorMessage>
+                )}
               </FormControl>
-              <FormControl isRequired>
+              <FormControl isRequired isInvalid={formError.password}>
                 <FormLabel htmlFor="password" color={color} opacity={opacity}>
                   Senha
                 </FormLabel>
@@ -78,6 +103,7 @@ const LoginPage: NextPage = () => {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     onChange={handleUpdateForm}
+                    onBlur={handleUpdateFormError}
                   />
                   <InputRightElement>
                     <IconButton
@@ -90,6 +116,11 @@ const LoginPage: NextPage = () => {
                     />
                   </InputRightElement>
                 </InputGroup>
+                {formError.password && (
+                  <FormErrorMessage>
+                    A senha não pode ser vazia
+                  </FormErrorMessage>
+                )}
               </FormControl>
               <br />
               <Button value="Entrar" width="100%" click={handleSubmit} />
