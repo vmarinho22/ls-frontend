@@ -1,11 +1,14 @@
 import { FC, ReactElement } from 'react';
 import DefaultButton from './DefaultButton';
 
+type IconPosition = 'left' | 'right';
+
 interface Props {
   value: string;
   click?: (event: any) => void;
   icon?: ReactElement<any>;
-  iconPosition?: string;
+  iconPosition?: IconPosition;
+  width?: number | string;
 }
 
 const Button: FC<any> = (props: Props) => <DefaultButton {...props} />;

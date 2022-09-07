@@ -8,13 +8,15 @@ interface Props {
   click?: (event: any) => void;
   icon?: ReactElement<any>;
   iconPosition?: IconPosition;
+  width?: number | string;
 }
 
 const DefaultButton: FC<Props> = (props: Props) => {
-  const { click, value, icon, iconPosition = 'right' } = props;
+  const { click, value, icon, iconPosition = 'right', width = 'auto' } = props;
 
   return (
     <Button
+      width={width}
       bg="blue-sys.100"
       color="#fff"
       _hover={{
