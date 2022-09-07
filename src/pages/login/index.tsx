@@ -10,6 +10,7 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
@@ -19,6 +20,7 @@ import { SyntheticEvent, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import Wave from 'react-wavify';
 import Button from '../../components/Button';
+import ThemeToggle from '../../components/ThemeToggle';
 
 interface Form {
   username: string;
@@ -41,28 +43,34 @@ const LoginPage: NextPage = () => {
     console.log('enviado', form);
   };
 
+  const color = useColorModeValue('gray.900', 'gray.100');
+  const opacity = useColorModeValue('1', '0.5');
+
   return (
-    <Container maxW="2xl">
+    <Container maxW="6xl">
       <Head>
         <title>Login - Learning Sys</title>
       </Head>
-      <Flex align="center" justify="center" width="100%" minHeight="100vh">
+      <Flex mt="3px" direction="row-reverse">
+        <ThemeToggle />
+      </Flex>
+      <Flex align="center" justify="center" width="100%" minHeight="96.9vh">
         <VStack align="left">
           <Heading color="blue-sys.100">Aqui você pode fazer Login</Heading>
-          <Text color="gray.100" opacity="0.5">
+          <Text color={color} opacity={opacity}>
             Entre conosco
           </Text>
           <br />
           <form>
             <VStack spacing={3}>
               <FormControl isRequired>
-                <FormLabel htmlFor="username" color="gray.100" opacity="0.5">
+                <FormLabel htmlFor="username" color={color} opacity={opacity}>
                   E-mail ou username
                 </FormLabel>
                 <Input id="username" type="text" onChange={handleUpdateForm} />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="password" color="gray.100" opacity="0.5">
+                <FormLabel htmlFor="password" color={color} opacity={opacity}>
                   Senha
                 </FormLabel>
                 <InputGroup>
@@ -87,7 +95,7 @@ const LoginPage: NextPage = () => {
               <Button value="Entrar" width="100%" click={handleSubmit} />
               <Link href="/recuperar-senha">
                 <a target="blank">
-                  <Text color="gray.100" opacity="0.5">
+                  <Text color={color} opacity={opacity}>
                     Esqueci minha senha
                   </Text>
                 </a>
