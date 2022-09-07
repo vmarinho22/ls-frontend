@@ -81,7 +81,7 @@ const LoginPage: NextPage = () => {
     return data;
   };
 
-  const handleValidateUser = async (): Promise<number> => {
+  const handleValidateUser = async (): Promise<number | null> => {
     const response: FetchResponse = await handleSendUserToAPI();
 
     if (response.user !== 0) {
@@ -89,12 +89,12 @@ const LoginPage: NextPage = () => {
       return response.user;
     }
 
-    return -1;
+    return null;
   };
 
   const handleSetUser = async (): Promise<void> => {
-    const user: number = await handleValidateUser();
-    if (user > 0) {
+    const user: number | null = await handleValidateUser();
+    if (user != null) {
       const data: User = await axios.get(`/users/${user}`);
       // TODO: puxar perfil do usuário
       if (data.isBlocked) {
