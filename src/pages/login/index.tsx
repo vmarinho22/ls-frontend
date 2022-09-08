@@ -97,7 +97,7 @@ const LoginPage: NextPage = () => {
     if (user != null) {
       const data: User = await axios.get(`/users/${user}`);
       // TODO: puxar perfil do usuário
-      if (data.isBlocked === true) {
+      if (data.isBlocked) {
         throw new Error(`User ${user} está bloqueado`);
       }
 
