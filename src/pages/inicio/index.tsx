@@ -1,10 +1,11 @@
+import Dashboard from '@components/Dashboard/index';
 import { GetServerSideProps, NextPage } from 'next';
 
 const HomePage: NextPage = () => {
   return (
-    <div>
+    <Dashboard>
       <p>Marinho React Component</p>
-    </div>
+    </Dashboard>
   );
 };
 

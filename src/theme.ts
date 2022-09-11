@@ -10,6 +10,8 @@ const config = {
     'blue-sys': { 100: '#1098F7', 200: '#044c7f' },
     'cream-sys': '#B89E97',
     'light-pink-grey-sys': '#DECCCC',
+    'black-sys': '#0f0f0f',
+    'white-sys': '#f5f5f5',
   },
   styles: {
     global: {
