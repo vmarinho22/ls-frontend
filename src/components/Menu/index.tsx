@@ -1,6 +1,8 @@
-import { Box, Center, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Center, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { BiHome } from 'react-icons/bi';
+import { HiOutlineUsers } from 'react-icons/hi';
+import { TbLockOpen } from 'react-icons/tb';
 import MenuItem from './MenuItem';
 
 const Menu: FC<any> = (props: any) => {
@@ -17,10 +19,10 @@ const Menu: FC<any> = (props: any) => {
       as="nav"
       width={
         isExpanded
-          ? { base: '5vw', md: '8vw', lg: '6vw' }
+          ? { base: '5vw', md: 'auto', lg: '10vw' }
           : { base: '3vw', md: '4vw', lg: '3vw' }
       }
-      transition="0.5s ease-out"
+      transition="0.3s ease-out"
       padding="1em 3px 0px 3px"
       bg={bgColor}
       color={textColor}
@@ -37,15 +39,31 @@ const Menu: FC<any> = (props: any) => {
         </Center>
       </Box>
       <Box mb="3.5rem" />
-      <section id="menu-links">
-        <MenuItem
-          id="homepage-link"
-          text="Home"
-          icon={<BiHome size="1.5em" />}
-          isExpanded={isExpanded}
-          link="/inicio"
-        />
-      </section>
+      <Box id="menu-links" as="section">
+        <VStack align="left" gap={2}>
+          <MenuItem
+            id="menu-home"
+            text="Home"
+            icon={<BiHome size="1.5em" />}
+            isExpanded={isExpanded}
+            link="/inicio"
+          />
+          <MenuItem
+            id="menu-users"
+            text="Usuários"
+            icon={<HiOutlineUsers size="1.5em" />}
+            isExpanded={isExpanded}
+            link="/inicio"
+          />
+          <MenuItem
+            id="homepage-link"
+            text="Permissões"
+            icon={<TbLockOpen size="1.5em" />}
+            isExpanded={isExpanded}
+            link="/inicio"
+          />
+        </VStack>
+      </Box>
     </Box>
   );
 };

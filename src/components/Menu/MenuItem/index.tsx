@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
 interface Props {
-  id?: string | number;
+  id?: string;
   icon: ReactNode;
   text: string;
   isExpanded: boolean;
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const MenuItem: FC<Props> = ({
+  id = 'menu-item',
   icon,
   text,
   isExpanded = false,
@@ -19,11 +20,12 @@ const MenuItem: FC<Props> = ({
   return (
     <Link href={link}>
       <Flex
-        id="id"
+        id={id}
         align="center"
-        gap={0}
-        justify="space-evenly"
+        gap={2}
+        justify={isExpanded ? 'flex-start' : 'center'}
         cursor="pointer"
+        paddingLeft={isExpanded ? '1rem' : 'auto'}
         fontWeight={600}
         _hover={{
           color: 'blue-sys.200',
