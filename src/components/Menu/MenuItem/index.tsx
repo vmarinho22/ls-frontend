@@ -37,7 +37,8 @@ const MenuItem: FC<Props> = ({
           _hover={{
             color: 'blue-sys.200',
           }}
-          bg={isCurrent ? '#cfcfcf' : 'transparent'}
+          bg={isCurrent ? '#e9e9e9' : 'transparent'}
+          borderRadius={isCurrent ? '10px' : '0'}
           transition="0.5s ease"
         >
           <Box
