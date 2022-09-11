@@ -8,6 +8,7 @@ interface Props {
   text: string;
   isExpanded: boolean;
   link: string;
+  isCurrent: boolean;
 }
 
 const MenuItem: FC<Props> = ({
@@ -16,26 +17,47 @@ const MenuItem: FC<Props> = ({
   text,
   isExpanded = false,
   link,
+  isCurrent = false,
 }: Props) => {
   return (
     <Link href={link}>
-      <Flex
-        id={id}
-        align="center"
-        gap={2}
-        justify={isExpanded ? 'flex-start' : 'center'}
-        cursor="pointer"
-        paddingLeft={isExpanded ? '1rem' : 'auto'}
-        fontWeight={600}
-        _hover={{
-          color: 'blue-sys.200',
-        }}
-      >
-        <Box>{icon}</Box>
-        <Box display={isExpanded ? 'flex' : 'none'}>
-          <Text opacity={isExpanded ? '100' : '0'}>{text}</Text>
-        </Box>
-      </Flex>
+      <a>
+        <Flex
+          id={id}
+          align="center"
+          gap={2}
+          justify={isExpanded ? 'flex-start' : 'center'}
+          cursor="pointer"
+          padding={
+            isCurrent
+              ? `5px 0px 5px ${isExpanded ? '1rem' : '0px'}`
+              : `0px 0px 0px ${isExpanded ? '1rem' : '0px'}`
+          }
+          fontWeight={600}
+          _hover={{
+            color: 'blue-sys.200',
+          }}
+          bg={isCurrent ? '#cfcfcf' : 'transparent'}
+          transition="0.5s ease"
+        >
+          <Box
+            padding="3px"
+            border="1px solid rgba( 255, 255, 255, 0.18 )"
+            borderRadius={10}
+            color={isCurrent ? 'white-sys.200' : 'blue-sys.100'}
+            bg={isCurrent ? 'blue-sys.100' : 'rgba( 255, 255, 255, 0.25 )'}
+            boxShadow={
+              isCurrent ? 'none' : '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'
+            }
+            backdropFilter="blur( 4px )"
+          >
+            <Link href={link}>{icon}</Link>
+          </Box>
+          <Box display={isExpanded ? 'flex' : 'none'}>
+            <Text opacity={isExpanded ? '100' : '0'}>{text}</Text>
+          </Box>
+        </Flex>
+      </a>
     </Link>
   );
 };

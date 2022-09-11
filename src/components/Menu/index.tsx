@@ -1,4 +1,5 @@
 import { Box, Center, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { BiHome } from 'react-icons/bi';
 import { HiOutlineUsers } from 'react-icons/hi';
@@ -7,9 +8,10 @@ import MenuItem from './MenuItem';
 
 const Menu: FC<any> = (props: any) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const { asPath } = useRouter();
 
-  const bgColor = useColorModeValue('black-sys', 'white-sys');
-  const textColor = useColorModeValue('white-sys', 'black-sys');
+  const bgColor = useColorModeValue('black-sys.200', 'white-sys.100');
+  const textColor = useColorModeValue('white-sys.100', 'black-sys.200');
 
   const handleExpandMenu = (): void => setIsExpanded((prev: boolean) => !prev);
 
@@ -19,7 +21,7 @@ const Menu: FC<any> = (props: any) => {
       as="nav"
       width={
         isExpanded
-          ? { base: '5vw', md: 'auto', lg: '10vw' }
+          ? { base: '20vw', md: '20vw', lg: '10vw' }
           : { base: '3vw', md: '4vw', lg: '3vw' }
       }
       transition="0.3s ease-out"
@@ -44,23 +46,26 @@ const Menu: FC<any> = (props: any) => {
           <MenuItem
             id="menu-home"
             text="Home"
-            icon={<BiHome size="1.5em" />}
+            icon={<BiHome size="1.3em" />}
             isExpanded={isExpanded}
+            isCurrent={asPath.includes('/inicio')}
             link="/inicio"
           />
           <MenuItem
             id="menu-users"
             text="Usuários"
-            icon={<HiOutlineUsers size="1.5em" />}
+            icon={<HiOutlineUsers size="1.3em" />}
             isExpanded={isExpanded}
-            link="/inicio"
+            isCurrent={asPath.includes('/users')}
+            link="/users"
           />
           <MenuItem
-            id="homepage-link"
+            id="menu-permissions"
             text="Permissões"
-            icon={<TbLockOpen size="1.5em" />}
+            icon={<TbLockOpen size="1.3em" />}
             isExpanded={isExpanded}
-            link="/inicio"
+            isCurrent={asPath.includes('/permissions')}
+            link="/permissions"
           />
         </VStack>
       </Box>
