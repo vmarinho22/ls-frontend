@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import theme from '../theme';
 
 const Document: FunctionComponent = () => (
-  <Html>
+  <Html lang="pt-br">
     <Head />
     <body>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
