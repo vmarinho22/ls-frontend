@@ -3,7 +3,8 @@ import { FC, ReactElement } from 'react';
 
 type IconPosition = 'left' | 'right';
 
-interface Props {
+export interface Props {
+  type?: 'submit' | 'button' | 'reset';
   value: string;
   click?: (event: any) => void;
   icon?: ReactElement<any>;
@@ -16,6 +17,7 @@ interface Props {
 
 const DefaultButton: FC<Props> = (props: Props) => {
   const {
+    type = 'submit',
     click,
     value,
     icon,
@@ -28,6 +30,7 @@ const DefaultButton: FC<Props> = (props: Props) => {
 
   return (
     <Button
+      type={type}
       width={width}
       bg="blue-sys.100"
       color="#fff"

@@ -19,12 +19,15 @@ import Button from '@components/Button';
 import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
 import { type User } from '@globalTypes/user';
+import { yupResolver } from '@hookform/resolvers/yup';
 import axios from '@services/axios';
+import yup from '@services/yup';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import Wave from 'react-wavify';
@@ -34,21 +37,23 @@ interface Form {
   password: string;
 }
 
-interface FormError {
-  username: boolean;
-  password: boolean;
-}
-
 interface FetchResponse {
   user: number;
   access_token: string;
 }
 
+const schema = yup.object({
+  username: yup.string().required('O usuário é obrigatório'),
+  password: yup.string().required('A senha é obrigatória'),
+});
+
 const LoginPage: NextPage = () => {
-  const [form, setForm] = useState<Form>({ username: '', password: '' });
-  const [formError, setFormError] = useState<FormError>({
-    username: false,
-    password: false,
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Form>({
+    resolver: yupResolver(schema),
   });
   const [showPassword, setShowPassword] = useState(false);
   const color = useColorModeValue('gray.900', 'gray.100');
@@ -65,24 +70,14 @@ const LoginPage: NextPage = () => {
 
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
 
-  const handleUpdateForm = (event: SyntheticEvent): void => {
-    const target = event.target as HTMLInputElement;
-    setForm((prev) => ({ ...prev, [target.id]: target.value }));
+  const handleSendUserToAPI = async (data: Form): Promise<FetchResponse> => {
+    const fetchData: FetchResponse = await axios.post('/auth/login', data);
+
+    return fetchData;
   };
 
-  const handleUpdateFormError = (event: SyntheticEvent): void => {
-    const target = event.target as HTMLInputElement;
-    setFormError((prev) => ({ ...prev, [target.id]: target.value === '' }));
-  };
-
-  const handleSendUserToAPI = async (): Promise<FetchResponse> => {
-    const data: FetchResponse = await axios.post('/auth/login', form);
-
-    return data;
-  };
-
-  const handleValidateUser = async (): Promise<number | null> => {
-    const response: FetchResponse = await handleSendUserToAPI();
+  const handleValidateUser = async (data: Form): Promise<number | null> => {
+    const response: FetchResponse = await handleSendUserToAPI(data);
 
     if (response.user !== 0) {
       sessionStorage.setItem('token', response.access_token);
@@ -92,8 +87,8 @@ const LoginPage: NextPage = () => {
     return null;
   };
 
-  const handleSetUser = async (): Promise<void> => {
-    const user: number | null = await handleValidateUser();
+  const handleSetUser = async (data: Form): Promise<void> => {
+    const user: number | null = await handleValidateUser(data);
     if (user != null) {
       const data: User = await axios.get(`/users/${user}`);
       // TODO: puxar perfil do usuário
@@ -113,10 +108,9 @@ const LoginPage: NextPage = () => {
     }
   };
 
-  const handleSubmit = (event: SyntheticEvent): void => {
-    event.preventDefault();
+  const onSubmit: SubmitHandler<Form> = (data: Form): void => {
     void toast.promise(
-      handleSetUser,
+      async () => await handleSetUser(data),
       {
         pending: 'Entrando...',
         success: 'Bem vindo!',
@@ -142,10 +136,10 @@ const LoginPage: NextPage = () => {
               Entre conosco
             </Text>
             <br />
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <ScaleFade initialScale={0.6} in={true}>
                 <VStack spacing={3}>
-                  <FormControl isRequired isInvalid={formError.username}>
+                  <FormControl isRequired isInvalid={'username' in errors}>
                     <FormLabel
                       htmlFor="username"
                       color={color}
@@ -153,19 +147,19 @@ const LoginPage: NextPage = () => {
                     >
                       E-mail ou username
                     </FormLabel>
-                    <Input
-                      id="username"
-                      type="text"
-                      onChange={handleUpdateForm}
-                      onBlur={handleUpdateFormError}
+                    <Controller
+                      name="username"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => <Input {...field} />}
                     />
-                    {formError.username && (
+                    {errors.username != null && (
                       <FormErrorMessage>
-                        O campo usuário não pode ser vazio
+                        {errors.username.message}
                       </FormErrorMessage>
                     )}
                   </FormControl>
-                  <FormControl isRequired isInvalid={formError.password}>
+                  <FormControl isRequired isInvalid={'password' in errors}>
                     <FormLabel
                       htmlFor="password"
                       color={color}
@@ -173,31 +167,36 @@ const LoginPage: NextPage = () => {
                     >
                       Senha
                     </FormLabel>
-                    <InputGroup>
-                      <Input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        onChange={handleUpdateForm}
-                        onBlur={handleUpdateFormError}
-                      />
-                      <InputRightElement>
-                        <IconButton
-                          aria-label="Search database"
-                          icon={
-                            showPassword ? (
-                              <HiOutlineEye />
-                            ) : (
-                              <HiOutlineEyeOff />
-                            )
-                          }
-                          onMouseDown={handleShowPassword}
-                          onMouseUp={handleShowPassword}
-                        />
-                      </InputRightElement>
-                    </InputGroup>
-                    {formError.password && (
+                    <Controller
+                      name="password"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <InputGroup>
+                          <Input
+                            type={showPassword ? 'text' : 'password'}
+                            {...field}
+                          />
+                          <InputRightElement>
+                            <IconButton
+                              aria-label="Search database"
+                              icon={
+                                showPassword ? (
+                                  <HiOutlineEye />
+                                ) : (
+                                  <HiOutlineEyeOff />
+                                )
+                              }
+                              onMouseDown={handleShowPassword}
+                              onMouseUp={handleShowPassword}
+                            />
+                          </InputRightElement>
+                        </InputGroup>
+                      )}
+                    />
+                    {errors.password != null && (
                       <FormErrorMessage>
-                        A senha não pode ser vazia
+                        {errors.password.message}
                       </FormErrorMessage>
                     )}
                   </FormControl>
@@ -205,8 +204,7 @@ const LoginPage: NextPage = () => {
                   <Button
                     value="Entrar"
                     width="100%"
-                    click={handleSubmit}
-                    isDisabled={Object.values(formError).some((item) => item)}
+                    isDisabled={Object.values(errors).some((item) => item)}
                   />
                   <Link href="/recuperar-senha">
                     <a target="blank">
