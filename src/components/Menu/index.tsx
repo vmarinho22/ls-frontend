@@ -21,8 +21,8 @@ const Menu: FC<any> = (props: any) => {
       as="nav"
       width={
         isExpanded
-          ? { base: '22%', md: '22%', lg: '14%', xl: '12%' }
-          : { base: '5%', md: '5%', lg: '4%', xl: '3%' }
+          ? { base: '50%', md: '22%', lg: '14%', xl: '12%' }
+          : { base: '10%', md: '5%', lg: '4%', xl: '3%' }
       }
       transition="0.3s ease-out"
       padding="1em 3px 0px 3px"
