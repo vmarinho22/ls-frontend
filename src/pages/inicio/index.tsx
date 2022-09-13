@@ -1,11 +1,11 @@
-import Dashboard from '@components/Dashboard/index';
+import TemplateDashboard from '@templates/TemplateDashboard';
 import { GetServerSideProps, NextPage } from 'next';
 
 const HomePage: NextPage = () => {
   return (
-    <Dashboard>
+    <TemplateDashboard title="Inicio">
       <p>Marinho React Component</p>
-    </Dashboard>
+    </TemplateDashboard>
   );
 };
 
