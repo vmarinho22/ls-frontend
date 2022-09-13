@@ -6,7 +6,7 @@ import { HiOutlineUsers } from 'react-icons/hi';
 import { TbLockOpen } from 'react-icons/tb';
 import MenuItem from './MenuItem';
 
-const Menu: FC<any> = (props: any) => {
+const Menu: FC<any> = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { asPath } = useRouter();
 

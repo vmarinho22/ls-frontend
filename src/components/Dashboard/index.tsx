@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import Menu from '@components/Menu';
+import TopBar from '@components/TopBar';
 import { FC, ReactNode } from 'react';
 
 interface Props {
@@ -11,7 +12,10 @@ const Dashboard: FC<Props> = ({ children }: Props) => {
     <main id="dashboard">
       <Flex gap={2}>
         <Menu />
-        <Box width="auto">{children}</Box>
+        <Box width="100%">
+          <TopBar />
+          {children}
+        </Box>
       </Flex>
     </main>
   );
