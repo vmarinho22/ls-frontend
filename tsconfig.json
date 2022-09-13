@@ -19,6 +19,7 @@
       "@components/*": ["src/components/*"],
       "@services/*": ["src/services/*"],
       "@templates/*": ["src/templates/*"],
+      "@lib/*": ["src/lib/*"],
       "@globalTypes/*": ["src/types/*"],
       "@styles/*": ["src/styles/*"],
       "@config/*": ["src/config/*"]

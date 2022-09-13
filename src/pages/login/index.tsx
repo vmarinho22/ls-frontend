@@ -20,8 +20,9 @@ import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
 import { type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from '@services/axios';
+import axiosService from '@services/axios';
 import yup from '@services/yup';
+import axios from 'axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -71,14 +72,15 @@ const LoginPage: NextPage = () => {
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
 
   const handleSendUserToAPI = async (data: Form): Promise<FetchResponse> => {
-    const fetchData: FetchResponse = await axios.post('/auth/login', data);
+    const fetchData = await axios.post('/api/login', data);
 
-    return fetchData;
+    return fetchData.data;
   };
 
   const handleValidateUser = async (data: Form): Promise<number | null> => {
     const response: FetchResponse = await handleSendUserToAPI(data);
 
+    console.log(response);
     if (response.user !== 0) {
       sessionStorage.setItem('token', response.access_token);
       return response.user;
@@ -90,7 +92,7 @@ const LoginPage: NextPage = () => {
   const handleSetUser = async (data: Form): Promise<void> => {
     const user: number | null = await handleValidateUser(data);
     if (user != null) {
-      const data: User = await axios.get(`/users/${user}`);
+      const data: User = await axiosService.get(`/users/${user}`);
       // TODO: puxar perfil do usuário
       if (data.isBlocked) {
         throw new Error(`User ${user} está bloqueado`);
