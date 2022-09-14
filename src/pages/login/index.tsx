@@ -80,7 +80,6 @@ const LoginPage: NextPage = () => {
   const handleValidateUser = async (data: Form): Promise<number | null> => {
     const response: FetchResponse = await handleSendUserToAPI(data);
 
-    console.log(response);
     if (response.user !== 0) {
       sessionStorage.setItem('token', response.access_token);
       return response.user;

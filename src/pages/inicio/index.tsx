@@ -1,5 +1,5 @@
 import TemplateDashboard from '@templates/TemplateDashboard';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 const HomePage: NextPage = () => {
   return (
@@ -10,9 +10,3 @@ const HomePage: NextPage = () => {
 };
 
 export default HomePage;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {},
-  };
-};

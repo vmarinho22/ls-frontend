@@ -10,19 +10,47 @@ import {
   Text,
 } from '@chakra-ui/react';
 import ThemeToggle from '@components/ThemeToggle';
+import defaultToastOptions from '@config/toast/index';
+import axios, { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
+import { toast } from 'react-toastify';
+
+interface LogoutResponse {
+  ok: boolean;
+}
 
 const TopBar: FC<unknown> = () => {
   // TODO: Puxar dados do perfil do usuário ( quando existir)
   const router = useRouter();
 
+  const handleRequestLogout = async (): Promise<void> => {
+    const response: AxiosResponse<LogoutResponse> = await axios.post(
+      '/api/logout',
+      {}
+    );
+
+    if (response.data.ok) {
+      await router.push('/login');
+    }
+  };
+
   const handleLogout = async (): Promise<void> => {
     sessionStorage.clear();
 
-    await router.push('/login');
+    await handleRequestLogout();
+
+    void toast.promise(
+      async () => await handleRequestLogout(),
+      {
+        pending: 'Saindo...',
+        success: 'Até breve :)',
+        error: 'Ocorreu um erro interno, tente novamente mais tarde...',
+      },
+      defaultToastOptions
+    );
   };
 
   return (
