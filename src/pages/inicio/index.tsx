@@ -3,8 +3,11 @@ import { NextPage } from 'next';
 
 const HomePage: NextPage = () => {
   return (
-    <TemplateDashboard title="Inicio">
-      <p>Marinho React Component</p>
+    <TemplateDashboard
+      title="Inicio"
+      about="Aqui você pode ver um resumo do treinamentos a vencer, últimos treinamento e muitos mais..."
+    >
+      <p>Implementação futura</p>
     </TemplateDashboard>
   );
 };
