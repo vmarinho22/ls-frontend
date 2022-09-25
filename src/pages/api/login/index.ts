@@ -24,7 +24,8 @@ async function loginRoute(
       const userInfo = response.data;
 
       req.session.user = {
-        id: userInfo.id,
+        id: userInfo.user,
+        token: userInfo.access_token,
       };
       await req.session.save();
 

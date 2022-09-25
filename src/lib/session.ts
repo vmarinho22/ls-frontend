@@ -3,6 +3,7 @@ import type { IronSessionOptions } from 'iron-session';
 
 interface UserSession {
   id: string | number;
+  token: string;
 }
 
 export const sessionOptions: IronSessionOptions = {

@@ -13,7 +13,6 @@ export async function middleware(req: NextRequest): Promise<unknown> {
 
   // TODO: Melhorar validação se o usuário está logado ou não
 
-  console.log(user);
   if (user == null) {
     return NextResponse.redirect(new URL('/login', req.url)); // redirect to /unauthorized page
   }

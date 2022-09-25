@@ -18,16 +18,18 @@ import {
 import Button from '@components/Button';
 import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
-import { type User } from '@globalTypes/user';
+import { Profile, type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import yup from '@services/yup';
 import axios from 'axios';
+import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
@@ -61,14 +63,6 @@ const LoginPage: NextPage = () => {
   const opacity = useColorModeValue('1', '0.5');
   const router = useRouter();
 
-  useEffect(() => {
-    const user = sessionStorage.getItem('user');
-
-    if (user != null) {
-      void router.push('/inicio');
-    }
-  }, [router]);
-
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
 
   const handleSendUserToAPI = async (data: Form): Promise<FetchResponse> => {
@@ -97,11 +91,14 @@ const LoginPage: NextPage = () => {
         throw new Error(`User ${user} está bloqueado`);
       }
 
+      const profile: Profile = await axiosService.get(`/profiles/${data.id}`);
+
       sessionStorage.setItem(
         'user',
         JSON.stringify({
           id: user,
-          email: data.email,
+          name: profile.name,
+          profilePicture: profile.userPicture,
         })
       );
 
@@ -238,3 +235,23 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user;
+
+    if (user !== undefined && 'id' in user) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: '/inicio',
+        },
+      };
+    }
+
+    return {
+      props: {},
+    };
+  },
+  sessionOptions
+);
