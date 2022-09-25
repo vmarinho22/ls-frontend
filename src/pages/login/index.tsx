@@ -99,6 +99,7 @@ const LoginPage: NextPage = () => {
           id: user,
           name: profile.name,
           profilePicture: profile.userPicture,
+          role: profile.role.title,
         })
       );
 

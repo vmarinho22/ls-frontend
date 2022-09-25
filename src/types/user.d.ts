@@ -17,7 +17,18 @@ export interface Profile {
   birthDate: Date;
   naturalness: string;
   roleId: number;
+  role: {
+    id: number;
+    title: string;
+  };
   userId: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface UserSession {
+  id: number;
+  name: string;
+  profilePicture: string | null;
+  role: string;
 }

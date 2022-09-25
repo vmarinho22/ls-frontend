@@ -11,10 +11,11 @@ import {
 } from '@chakra-ui/react';
 import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
+import { UserSession } from '@globalTypes/user';
 import axios, { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 
@@ -23,8 +24,18 @@ interface LogoutResponse {
 }
 
 const TopBar: FC<unknown> = () => {
-  // TODO: Puxar dados do perfil do usuário ( quando existir)
   const router = useRouter();
+  const [user, setUser] = useState<UserSession>();
+
+  useEffect(() => {
+    const userOfSession: UserSession = JSON.parse(
+      sessionStorage.getItem('user') ?? ''
+    );
+
+    if (userOfSession !== null) {
+      setUser(userOfSession);
+    }
+  }, []);
 
   const handleRequestLogout = async (): Promise<void> => {
     const response: AxiosResponse<LogoutResponse> = await axios.post(
@@ -46,7 +57,7 @@ const TopBar: FC<unknown> = () => {
       async () => await handleRequestLogout(),
       {
         pending: 'Saindo...',
-        success: 'Até breve :)',
+        success: `Até breve ${user?.name?.split(' ')[0] ?? ''} :)`,
         error: 'Ocorreu um erro interno, tente novamente mais tarde...',
       },
       defaultToastOptions
@@ -66,15 +77,19 @@ const TopBar: FC<unknown> = () => {
         <Box>
           <Link href="/perfil">
             <a>
-              <Avatar size="sm" name="Usuário" />
+              <Avatar
+                size="sm"
+                name={user?.name ?? 'Usuário'}
+                src={user?.profilePicture ?? ''}
+              />
             </a>
           </Link>
         </Box>
         <Box>
           <Link href="/perfil">
             <a>
-              <Text fontSize="sm">Usuário</Text>
-              <Text fontSize="10px">Cargo</Text>
+              <Text fontSize="sm">{user?.name ?? 'Usuário'}</Text>
+              <Text fontSize="10px">{user?.role ?? 'Cargo'}</Text>
             </a>
           </Link>
         </Box>
