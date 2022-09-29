@@ -10,7 +10,7 @@ interface Props {
 const Dashboard: FC<Props> = ({ children }: Props) => {
   return (
     <main id="dashboard">
-      <Flex gap={4}>
+      <Flex gap={4} width="100%">
         <Menu />
         <Box width="100%">
           <TopBar />

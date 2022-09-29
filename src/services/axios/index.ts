@@ -8,9 +8,11 @@ axiosInstance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
   if (request.headers != null) {
-    request.headers.Authorization = `Bearer ${
-      sessionStorage.getItem('token') ?? ''
-    }`;
+    if (typeof window !== 'undefined') {
+      request.headers.Authorization = `Bearer ${
+        window?.sessionStorage?.getItem('token') ?? ''
+      }`;
+    }
   }
 
   return request;

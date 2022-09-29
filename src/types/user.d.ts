@@ -1,3 +1,5 @@
+import { Permission } from './permission.d';
+
 export interface User {
   id: number;
   username: string;
@@ -6,6 +8,8 @@ export interface User {
   permissionId: number;
   createdAt: Date;
   updatedAt: Date;
+  profile?: Profile;
+  permission?: Permission;
 }
 
 export interface Profile {
