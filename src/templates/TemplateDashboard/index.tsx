@@ -1,4 +1,10 @@
-import { Box, Heading, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
 import Dashboard from '@components/Dashboard/index';
 import Head from 'next/head';
 import { FC, ReactNode } from 'react';
@@ -10,6 +16,8 @@ interface Props {
 }
 
 const TemplateDashboard: FC<Props> = ({ title, about, children }: Props) => {
+  const textColor = useColorModeValue('#aaaaaa', '#8a8a8a');
+
   return (
     <Box id="template-default">
       <Head>
@@ -20,7 +28,7 @@ const TemplateDashboard: FC<Props> = ({ title, about, children }: Props) => {
           <Heading fontStyle="italic" size={{ xl: 'xl', lg: 'lg', md: 'md' }}>
             {title}
           </Heading>
-          <Text color="gray.100">{about}</Text>
+          <Text color={textColor}>{about}</Text>
           {children}
         </VStack>
       </Dashboard>
