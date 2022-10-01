@@ -22,6 +22,7 @@
       "@lib/*": ["src/lib/*"],
       "@globalTypes/*": ["src/types/*"],
       "@styles/*": ["src/styles/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@config/*": ["src/config/*"]
     }
   },

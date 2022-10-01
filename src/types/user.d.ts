@@ -10,6 +10,7 @@ export interface User {
   updatedAt: Date;
   profile?: Profile;
   permission?: Permission;
+  isSuperAdmin: boolean;
 }
 
 export interface Profile {
@@ -35,4 +36,18 @@ export interface UserSession {
   name: string;
   profilePicture: string | null;
   role: string;
+}
+
+export interface UserTypeContext {
+  id: number;
+  name: string;
+  email: string;
+  about: string;
+  profilePicture: string;
+  role: string;
+  isSuperAdmin: boolean;
+  permission: {
+    id: number;
+    title: string;
+  };
 }

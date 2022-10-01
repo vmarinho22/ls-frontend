@@ -20,6 +20,7 @@ import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
 import { Profile, type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
+import useUser from '@hooks/useUser';
 import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import yup from '@services/yup';
@@ -61,6 +62,7 @@ const LoginPage: NextPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const color = useColorModeValue('gray.900', 'gray.100');
   const opacity = useColorModeValue('1', '0.5');
+  const { handleSetUser } = useUser();
   const router = useRouter();
 
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
@@ -82,26 +84,28 @@ const LoginPage: NextPage = () => {
     return null;
   };
 
-  const handleSetUser = async (data: Form): Promise<void> => {
-    const user: number | null = await handleValidateUser(data);
-    if (user != null) {
-      const data: User = await axiosService.get(`/users/${user}`);
+  const handleSetUserInApp = async (data: Form): Promise<void> => {
+    const fetchedUser: number | null = await handleValidateUser(data);
+    if (fetchedUser != null) {
+      const data: User = await axiosService.get(`/users/${fetchedUser}`);
       // TODO: puxar perfil do usuário
       if (data.isBlocked) {
-        throw new Error(`User ${user} está bloqueado`);
+        throw new Error(`User ${fetchedUser} está bloqueado`);
       }
 
       const profile: Profile = await axiosService.get(`/profiles/${data.id}`);
 
-      sessionStorage.setItem(
-        'user',
-        JSON.stringify({
-          id: user,
-          name: profile.name,
-          profilePicture: profile.userPicture,
-          role: profile.role.title,
-        })
-      );
+      handleSetUser({
+        name: profile.name,
+        email: data.email,
+        profilePicture: profile.userPicture,
+        role: profile.role.title,
+        isSuperAdmin: data.isSuperAdmin,
+        permission: {
+          id: data?.permission?.id,
+          title: data?.permission?.title,
+        },
+      });
 
       void router.push('/inicio');
     }
@@ -109,7 +113,7 @@ const LoginPage: NextPage = () => {
 
   const onSubmit: SubmitHandler<Form> = (data: Form): void => {
     void toast.promise(
-      async () => await handleSetUser(data),
+      async () => await handleSetUserInApp(data),
       {
         pending: 'Entrando...',
         success: 'Bem vindo!',

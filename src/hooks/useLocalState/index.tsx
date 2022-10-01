@@ -9,7 +9,7 @@ function useLocalState<T = any>(key: string, initialValue: T): any {
     }
     try {
       // Get from local storage by key
-      const item = window.localStorage.getItem(key);
+      const item = window.sessionStorage.getItem(key);
       // Parse stored json or if none return initialValue
       return item !== null ? JSON.parse(item) : initialValue;
     } catch (error) {
@@ -18,7 +18,7 @@ function useLocalState<T = any>(key: string, initialValue: T): any {
     }
   });
   // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
+  // ... persists the new value to sessionStorage.
   const setValue = (value: T | ((val: T) => T)): any => {
     try {
       // Allow value to be a function so we have same API as useState
@@ -28,7 +28,7 @@ function useLocalState<T = any>(key: string, initialValue: T): any {
       setStoredValue(valueToStore);
       // Save to local storage
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {}
   };
