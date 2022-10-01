@@ -3,6 +3,35 @@ import { FC, ReactElement } from 'react';
 
 type IconPosition = 'left' | 'right';
 
+interface IColorScheme {
+  [key: string]: {
+    bg: string;
+    color: string;
+    hover: {
+      bg: string;
+    };
+  };
+}
+
+const ColorScheme: IColorScheme = {
+  primary: {
+    bg: 'blue-sys.100',
+    color: '#fff',
+    hover: {
+      bg: 'blue-sys.200',
+    },
+  },
+  secondary: {
+    bg: '#fff',
+    color: 'blue-sys.100',
+    hover: {
+      bg: '#f5f5f5',
+    },
+  },
+};
+
+type ColorMode = 'primary' | 'secondary';
+
 export interface Props {
   type?: 'submit' | 'button' | 'reset';
   value: string;
@@ -13,6 +42,7 @@ export interface Props {
   isDisabled?: boolean;
   isLoading?: boolean;
   loadingText?: string;
+  colorMode?: ColorMode;
 }
 
 const DefaultButton: FC<Props> = (props: Props) => {
@@ -26,16 +56,17 @@ const DefaultButton: FC<Props> = (props: Props) => {
     isDisabled = false,
     isLoading = false,
     loadingText = '',
+    colorMode = 'primary',
   } = props;
 
   return (
     <Button
       type={type}
       width={width}
-      bg="blue-sys.100"
-      color="#fff"
+      bg={ColorScheme[colorMode].bg}
+      color={ColorScheme[colorMode].color}
       _hover={{
-        bg: 'blue-sys.200',
+        bg: `${ColorScheme[colorMode].hover.bg}`,
       }}
       transition=".5s ease"
       onClick={click}
