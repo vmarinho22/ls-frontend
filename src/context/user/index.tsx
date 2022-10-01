@@ -28,7 +28,10 @@ const UserProvider = ({ children }: Props): JSX.Element => {
   };
 
   const handleUpdateUser = (user: Partial<UserTypeContext>): void => {
-    setUser(user);
+    setUser((prev: UserTypeContext) => ({
+      ...prev,
+      ...user,
+    }));
   };
 
   return (
