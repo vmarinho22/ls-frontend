@@ -24,6 +24,7 @@
     "react-icons": "^4.4.0",
     "react-toastify": "^9.0.8",
     "react-wavify": "^1.6.1",
+    "usehooks-ts": "^2.7.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
