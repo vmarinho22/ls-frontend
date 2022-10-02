@@ -42,12 +42,12 @@ export interface UserTypeContext {
   id: number;
   name: string;
   email: string;
-  about: string;
+  about?: string;
   profilePicture: string;
   role: string;
   isSuperAdmin: boolean;
   permission: {
-    id: number;
-    title: string;
+    id: number | undefined;
+    title: string | undefined;
   };
 }
