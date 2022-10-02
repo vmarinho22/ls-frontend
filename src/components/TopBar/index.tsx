@@ -29,7 +29,7 @@ const TopBar: FC<unknown> = () => {
 
   useEffect(() => {
     const userOfSession: UserSession = JSON.parse(
-      sessionStorage.getItem('user') ?? ''
+      sessionStorage.getItem('user') ?? '{}'
     );
 
     if (userOfSession !== null) {
