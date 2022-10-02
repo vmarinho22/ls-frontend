@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { UserContext } from './../../context/user/index';
+import { UserContext, UserContextType } from './../../context/user/index';
 
-const useUser = (): any => {
-  const context = useContext(UserContext);
-  return context;
+const useUser = (): UserContextType => {
+  const context = useContext<UserContextType | null>(UserContext);
+  return context as UserContextType;
 };
 
 export default useUser;
