@@ -6,17 +6,20 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react';
+import useUser from '@hooks/useUser';
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import { HiKey, HiLockClosed, HiLockOpen, HiPencil } from 'react-icons/hi';
-import ChangePermission from './ChangePermission/index';
+import ChangePermission from './ChangePermission';
 
 interface Props {
   id: number;
   isBlock: boolean;
+  userIndex: number;
 }
 
-const UserActions: FC<Props> = ({ id, isBlock }: Props) => {
+const UserActions: FC<Props> = ({ id, isBlock, userIndex }: Props) => {
+  const { user } = useUser();
   const {
     onOpen: onChangePermissionOpen,
     onClose: onChangePermissionClose,
@@ -33,9 +36,11 @@ const UserActions: FC<Props> = ({ id, isBlock }: Props) => {
           variant="outline"
         />
         <MenuList>
-          <MenuItem icon={<HiKey />} onClick={onChangePermissionOpen}>
-            Alterar Permissão
-          </MenuItem>
+          {user.isSuperAdmin && (
+            <MenuItem icon={<HiKey />} onClick={onChangePermissionOpen}>
+              Alterar Permissão
+            </MenuItem>
+          )}
 
           <Link href={`/users/edit/${id}`}>
             <MenuItem icon={<HiPencil />}>Editar informações</MenuItem>
@@ -51,6 +56,7 @@ const UserActions: FC<Props> = ({ id, isBlock }: Props) => {
         id={id}
         isOpen={isChangePermissionOpen}
         onClose={onChangePermissionClose}
+        userIndex={userIndex}
       />
     </Fragment>
   );
