@@ -87,7 +87,7 @@ const LoginPage: NextPage = () => {
     if (fetchedUser != null) {
       const data: User = await axiosService.get(`/users/${fetchedUser}`);
       if (data.isBlocked) {
-        throw new Error(`User ${fetchedUser} está bloqueado`);
+        throw new Error(`Essa conta está bloqueada. Contate o  administrador`);
       }
 
       const profile: Profile = await axiosService.get(`/profiles/${data.id}`);
@@ -105,21 +105,20 @@ const LoginPage: NextPage = () => {
           title: data?.permission?.title,
         },
       });
-
+      toast.success(
+        `Bem vindo(a) ${profile.name.split(' ')[0]}`,
+        defaultToastOptions
+      );
       void router.push('/inicio');
     }
   };
 
-  const onSubmit: SubmitHandler<Form> = (data: Form): void => {
-    void toast.promise(
-      async () => await handleSetUserInApp(data),
-      {
-        pending: 'Entrando...',
-        success: 'Bem vindo!',
-        error: 'Usuário e/ou senha incorretos',
-      },
-      defaultToastOptions
-    );
+  const onSubmit: SubmitHandler<Form> = async (data: Form): Promise<void> => {
+    try {
+      await handleSetUserInApp(data);
+    } catch (err: any) {
+      toast.error(err?.message, defaultToastOptions);
+    }
   };
 
   return (
