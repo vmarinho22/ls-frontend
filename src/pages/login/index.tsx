@@ -17,15 +17,13 @@ import {
 } from '@chakra-ui/react';
 import Button from '@components/Button';
 import ThemeToggle from '@components/ThemeToggle';
-import defaultToastOptions from '@config/toast/index';
+import defaultToastOptions from '@config/toast';
 import { Profile, type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useUser from '@hooks/useUser';
-import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import yup from '@services/yup';
 import axios from 'axios';
-import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -88,7 +86,6 @@ const LoginPage: NextPage = () => {
     const fetchedUser: number | null = await handleValidateUser(data);
     if (fetchedUser != null) {
       const data: User = await axiosService.get(`/users/${fetchedUser}`);
-      // TODO: puxar perfil do usuário
       if (data.isBlocked) {
         throw new Error(`User ${fetchedUser} está bloqueado`);
       }
@@ -96,11 +93,13 @@ const LoginPage: NextPage = () => {
       const profile: Profile = await axiosService.get(`/profiles/${data.id}`);
 
       handleSetUser({
+        id: data.id,
         name: profile.name,
         email: data.email,
         profilePicture: profile.userPicture,
         role: profile.role.title,
         isSuperAdmin: data.isSuperAdmin,
+        about: profile.about,
         permission: {
           id: data?.permission?.id,
           title: data?.permission?.title,
@@ -240,23 +239,3 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
-
-export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req }) {
-    const user = req.session.user;
-
-    if (user !== undefined && 'id' in user) {
-      return {
-        redirect: {
-          permanent: true,
-          destination: '/inicio',
-        },
-      };
-    }
-
-    return {
-      props: {},
-    };
-  },
-  sessionOptions
-);
