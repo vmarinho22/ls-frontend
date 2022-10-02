@@ -1,15 +1,21 @@
 import { UserTypeContext } from '@globalTypes/user';
-import { createContext, ReactNode } from 'react';
-import useLocalState from 'src/hooks/useLocalState';
+import { createContext, FC, ReactNode } from 'react';
+import { useSessionStorage } from 'usehooks-ts';
 
-export const UserContext = createContext({});
+export interface UserContextType {
+  user: UserTypeContext;
+  handleSetUser: (user: UserTypeContext) => void;
+  handleUpdateUser: (user: Partial<UserTypeContext>) => void;
+}
+
+export const UserContext = createContext<UserContextType | null>(null);
 
 interface Props {
   children?: ReactNode;
 }
 
-const UserProvider = ({ children }: Props): JSX.Element => {
-  const [user, setUser] = useLocalState<UserTypeContext>('user', {
+const UserProvider: FC<Props> = ({ children }: Props): JSX.Element => {
+  const [user, setUser] = useSessionStorage<UserTypeContext>('user', {
     id: 0,
     name: '',
     email: '',
