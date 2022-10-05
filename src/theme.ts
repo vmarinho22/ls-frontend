@@ -6,6 +6,13 @@ import { mode } from '@chakra-ui/theme-tools';
 const config = {
   initialColorMode: 'dark',
   useSystemColorMode: false,
+  components: {
+    Heading: {
+      baseStyle: {
+        fontWeight: 600,
+      },
+    },
+  },
   colors: {
     'blue-sys': { 100: '#1098F7', 200: '#044c7f' },
     'cream-sys': '#B89E97',

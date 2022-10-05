@@ -19,18 +19,12 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
-  id: number;
+  id: number | null;
   isOpen: boolean;
   onClose: () => void;
-  userIndex: number;
 }
 
-const ChangePermission: FC<Props> = ({
-  id,
-  isOpen,
-  onClose,
-  userIndex,
-}: Props) => {
+const ChangePermission: FC<Props> = ({ id, isOpen, onClose }: Props) => {
   const { user } = useUser();
   const [options, setOptions] = useState<Permission[]>([]);
   const [selectedPermission, setSelectedPermission] = useState<number>(
@@ -55,28 +49,37 @@ const ChangePermission: FC<Props> = ({
 
   const handleUpdatePermission = (): void => {
     if (selectedPermission !== -1) {
-      axiosInstance
-        .patch(`/users/${id}`, {
-          permissionId: selectedPermission,
-        })
-        .then(() => {
-          const newTableData = [...tableData];
+      if (id !== null) {
+        axiosInstance
+          .patch(`/users/${id}`, {
+            permissionId: selectedPermission,
+          })
+          .then(() => {
+            const newTableData = tableData.slice();
 
-          const optionTitle = options.find(
-            (option) => option.id === selectedPermission
+            const optionTitle = options.find(
+              (option) => option.id === selectedPermission
+            );
+
+            const editedRowIndex = tableData.findIndex(
+              (row: any) => row.id === id
+            );
+
+            newTableData[editedRowIndex].permission = optionTitle?.title;
+
+            setTableData(newTableData);
+
+            onClose();
+
+            toast.success(
+              'Permissão alterada con sucesso!',
+              defaultToastOptions
+            );
+          })
+          .catch(() =>
+            toast.error('Erro ao atualizar a permissão!', defaultToastOptions)
           );
-
-          newTableData[userIndex].permission = optionTitle?.title;
-
-          setTableData(newTableData);
-
-          onClose();
-
-          toast.success('Permissão alterada con sucesso!', defaultToastOptions);
-        })
-        .catch(() =>
-          toast.error('Erro ao atualizar a permissão!', defaultToastOptions)
-        );
+      }
     }
   };
 

@@ -4,27 +4,28 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useDisclosure,
 } from '@chakra-ui/react';
 import useUser from '@hooks/useUser';
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import { HiKey, HiLockClosed, HiLockOpen, HiPencil } from 'react-icons/hi';
-import ChangePermission from './ChangePermission';
 
 interface Props {
   id: number;
+  onSelect: (id: number) => void;
   isBlock: boolean;
-  userIndex: number;
+  openBlockModal: () => void;
+  openChangePermission: () => void;
 }
 
-const UserActions: FC<Props> = ({ id, isBlock, userIndex }: Props) => {
+const UserActions: FC<Props> = ({
+  id,
+  onSelect,
+  isBlock,
+  openBlockModal,
+  openChangePermission,
+}: Props) => {
   const { user } = useUser();
-  const {
-    onOpen: onChangePermissionOpen,
-    onClose: onChangePermissionClose,
-    isOpen: isChangePermissionOpen,
-  } = useDisclosure();
 
   return (
     <Fragment>
@@ -37,7 +38,13 @@ const UserActions: FC<Props> = ({ id, isBlock, userIndex }: Props) => {
         />
         <MenuList>
           {user.isSuperAdmin && (
-            <MenuItem icon={<HiKey />} onClick={onChangePermissionOpen}>
+            <MenuItem
+              icon={<HiKey />}
+              onClick={() => {
+                onSelect(id);
+                openChangePermission();
+              }}
+            >
               Alterar Permissão
             </MenuItem>
           )}
@@ -45,19 +52,18 @@ const UserActions: FC<Props> = ({ id, isBlock, userIndex }: Props) => {
           <Link href={`/users/edit/${id}`}>
             <MenuItem icon={<HiPencil />}>Editar informações</MenuItem>
           </Link>
-          <Link href={`/users/block/${id}`}>
-            <MenuItem icon={isBlock ? <HiLockOpen /> : <HiLockClosed />}>
-              {isBlock ? 'Desbloquear' : 'Bloquear'}
-            </MenuItem>
-          </Link>
+
+          <MenuItem
+            icon={isBlock ? <HiLockOpen /> : <HiLockClosed />}
+            onClick={() => {
+              onSelect(id);
+              openBlockModal();
+            }}
+          >
+            {isBlock ? 'Desbloquear' : 'Bloquear'}
+          </MenuItem>
         </MenuList>
       </Menu>
-      <ChangePermission
-        id={id}
-        isOpen={isChangePermissionOpen}
-        onClose={onChangePermissionClose}
-        userIndex={userIndex}
-      />
     </Fragment>
   );
 };
