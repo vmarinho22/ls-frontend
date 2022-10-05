@@ -31,6 +31,7 @@ const ColorScheme: IColorScheme = {
 };
 
 type ColorMode = 'primary' | 'secondary';
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export interface Props {
   type?: 'submit' | 'button' | 'reset';
@@ -43,6 +44,7 @@ export interface Props {
   isLoading?: boolean;
   loadingText?: string;
   colorMode?: ColorMode;
+  size?: Size;
 }
 
 const DefaultButton: FC<Props> = (props: Props) => {
@@ -57,6 +59,7 @@ const DefaultButton: FC<Props> = (props: Props) => {
     isLoading = false,
     loadingText = '',
     colorMode = 'primary',
+    size = 'md',
   } = props;
 
   return (
@@ -75,6 +78,7 @@ const DefaultButton: FC<Props> = (props: Props) => {
       isLoading={isLoading}
       loadingText={loadingText}
       isDisabled={isDisabled}
+      size={size}
     >
       {value}
     </Button>
