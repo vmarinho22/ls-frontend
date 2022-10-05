@@ -27,7 +27,7 @@ interface Props {
   onClose: () => void;
 }
 
-const BlockModal: FC<Props> = ({ id, isOpen, onClose }) => {
+const SetBlockModal: FC<Props> = ({ id, isOpen, onClose }) => {
   const [user, setUser] = useState<User | null>(null);
   const { tableData, setTableData } = useTable();
 
@@ -153,4 +153,4 @@ const BlockModal: FC<Props> = ({ id, isOpen, onClose }) => {
   );
 };
 
-export default BlockModal;
+export default SetBlockModal;

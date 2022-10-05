@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react';
-import ChangePermission from '@components/Actions/ChangePermission';
 import UserActions from '@components/Actions/UserActions';
-import BlockModal from '@components/BlockModal';
+import ChangePermission from '@components/Modals/ChangePermission';
+import SetBlockModal from '@components/Modals/SetBlockModal';
 import SimpleTable from '@components/Tables/SimpleTable';
 import { User } from '@globalTypes/user';
 import useTable from '@hooks/useTable';
@@ -70,7 +70,7 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
         isOpen={isChangePermissionOpen}
         onClose={onChangePermissionClose}
       />
-      <BlockModal
+      <SetBlockModal
         id={selectedUser}
         isOpen={isBlockOpen}
         onClose={onBlockClose}

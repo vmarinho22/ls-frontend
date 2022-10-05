@@ -6,6 +6,7 @@ export interface UserContextType {
   user: UserTypeContext;
   handleSetUser: (user: UserTypeContext) => void;
   handleUpdateUser: (user: Partial<UserTypeContext>) => void;
+  handleDisconnectUser: () => void;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -14,20 +15,25 @@ interface Props {
   children?: ReactNode;
 }
 
-const UserProvider: FC<Props> = ({ children }: Props): JSX.Element => {
-  const [user, setUser] = useSessionStorage<UserTypeContext>('user', {
+const initialState: UserTypeContext = {
+  id: 0,
+  name: '',
+  email: '',
+  about: '',
+  profilePicture: '',
+  role: '',
+  isSuperAdmin: false,
+  permission: {
     id: 0,
-    name: '',
-    email: '',
-    about: '',
-    profilePicture: '',
-    role: '',
-    isSuperAdmin: false,
-    permission: {
-      id: 0,
-      title: '',
-    },
-  });
+    title: '',
+  },
+};
+
+const UserProvider: FC<Props> = ({ children }: Props): JSX.Element => {
+  const [user, setUser] = useSessionStorage<UserTypeContext>(
+    'user',
+    initialState
+  );
 
   const handleSetUser = (user: UserTypeContext): void => {
     setUser(user);
@@ -40,12 +46,17 @@ const UserProvider: FC<Props> = ({ children }: Props): JSX.Element => {
     }));
   };
 
+  const handleDisconnectUser = (): void => {
+    setUser(initialState);
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         handleSetUser,
         handleUpdateUser,
+        handleDisconnectUser,
       }}
     >
       {children}
