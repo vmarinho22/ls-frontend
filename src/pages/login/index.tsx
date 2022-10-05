@@ -21,9 +21,11 @@ import defaultToastOptions from '@config/toast';
 import { Profile, type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useUser from '@hooks/useUser';
+import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import yup from '@services/yup';
 import axios from 'axios';
+import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -238,3 +240,25 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user;
+
+    if (user != null) {
+      if ('id' in user) {
+        return {
+          redirect: {
+            permanent: true,
+            destination: '/inicio',
+          },
+        };
+      }
+    }
+
+    return {
+      props: {},
+    };
+  },
+  sessionOptions
+);

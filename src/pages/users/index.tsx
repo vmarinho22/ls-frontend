@@ -1,5 +1,6 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Flex, useDisclosure } from '@chakra-ui/react';
 import UserActions from '@components/Actions/UserActions';
+import Button from '@components/Button';
 import ChangePermission from '@components/Modals/ChangePermission';
 import SetBlockModal from '@components/Modals/SetBlockModal';
 import SimpleTable from '@components/Tables/SimpleTable';
@@ -10,7 +11,9 @@ import axiosService from '@services/axios';
 import TemplateDashboard from '@templates/TemplateDashboard';
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { HiPlusSm } from 'react-icons/hi';
 
 interface Props {
   users: User[];
@@ -64,6 +67,17 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
       title="Usuários"
       about="Aqui você pode gerenciar os usuários da aplicação."
     >
+      <Flex>
+        <Link href="/users/create">
+          <a>
+            <Button
+              value="Adicionar usuário"
+              size="sm"
+              icon={<HiPlusSm size="1.5em" />}
+            />
+          </a>
+        </Link>
+      </Flex>
       <SimpleTable title="users" heading={tableHead} data={tableData} />
       <ChangePermission
         id={selectedUser}
