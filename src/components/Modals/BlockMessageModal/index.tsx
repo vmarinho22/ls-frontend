@@ -1,3 +1,4 @@
+import { userState } from '@atoms/user';
 import {
   Heading,
   Modal,
@@ -8,11 +9,11 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import useUser from '@hooks/useUser';
 import axiosInstance from '@services/axios';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 interface IsBlock {
   isBlocked: boolean;
@@ -22,7 +23,7 @@ const BlockMessageModal: FC = () => {
   const [countDown, setCountDown] = useState<number>(15);
   const router = useRouter();
   const { isOpen, onOpen } = useDisclosure();
-  const { user } = useUser();
+  const user = useRecoilValue(userState);
 
   useEffect(() => {
     const interval = setInterval(() => {

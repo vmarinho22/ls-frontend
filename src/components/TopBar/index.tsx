@@ -1,3 +1,4 @@
+import { userState } from '@atoms/user';
 import {
   Avatar,
   Box,
@@ -12,13 +13,13 @@ import {
 import BlockMessageModal from '@components/Modals/BlockMessageModal';
 import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast/index';
-import useUser from '@hooks/useUser';
 import axios, { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, Fragment } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import { toast } from 'react-toastify';
+import { useRecoilValue } from 'recoil';
 
 interface LogoutResponse {
   ok: boolean;
@@ -26,7 +27,7 @@ interface LogoutResponse {
 
 const TopBar: FC<unknown> = () => {
   const router = useRouter();
-  const { user } = useUser();
+  const user = useRecoilValue(userState);
 
   const handleRequestLogout = async (): Promise<void> => {
     const response: AxiosResponse<LogoutResponse> = await axios.post(

@@ -1,3 +1,4 @@
+import { tableState } from '@atoms/table';
 import {
   Avatar,
   Flex,
@@ -15,11 +16,11 @@ import {
 import Button from '@components/Button';
 import defaultToastOptions from '@config/toast';
 import { User } from '@globalTypes/user';
-import useTable from '@hooks/useTable';
 import axiosInstance from '@services/axios';
 import { dayjs } from '@services/dayjs';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useRecoilState } from 'recoil';
 
 interface Props {
   id: number | null;
@@ -29,7 +30,7 @@ interface Props {
 
 const SetBlockModal: FC<Props> = ({ id, isOpen, onClose }) => {
   const [user, setUser] = useState<User | null>(null);
-  const { tableData, setTableData } = useTable();
+  const [tableData, setTableData] = useRecoilState(tableState);
 
   useEffect(() => {
     if (id !== null) {
@@ -53,9 +54,10 @@ const SetBlockModal: FC<Props> = ({ id, isOpen, onClose }) => {
             (row: any) => row.id === id
           );
 
-          newTableData[editedRowIndex].blocked = res?.isBlocked
-            ? 'Bloqueado'
-            : '	Não bloqueado';
+          newTableData[editedRowIndex] = {
+            ...newTableData[editedRowIndex],
+            blocked: res?.isBlocked ? 'Bloqueado' : '	Não bloqueado',
+          };
 
           setTableData(newTableData);
 

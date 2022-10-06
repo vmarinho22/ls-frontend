@@ -1,3 +1,4 @@
+import { userState } from '@atoms/user';
 import {
   IconButton,
   Menu,
@@ -5,10 +6,10 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
-import useUser from '@hooks/useUser';
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import { HiKey, HiLockClosed, HiLockOpen, HiPencil } from 'react-icons/hi';
+import { useRecoilValue } from 'recoil';
 
 interface Props {
   id: number;
@@ -25,7 +26,7 @@ const UserActions: FC<Props> = ({
   openBlockModal,
   openChangePermission,
 }: Props) => {
-  const { user } = useUser();
+  const user = useRecoilValue(userState);
 
   return (
     <Fragment>

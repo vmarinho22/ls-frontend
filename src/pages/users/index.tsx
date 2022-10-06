@@ -1,3 +1,4 @@
+import { tableState } from '@atoms/table';
 import { Flex, useDisclosure } from '@chakra-ui/react';
 import UserActions from '@components/Actions/UserActions';
 import Button from '@components/Button';
@@ -5,7 +6,6 @@ import ChangePermission from '@components/Modals/ChangePermission';
 import SetBlockModal from '@components/Modals/SetBlockModal';
 import SimpleTable from '@components/Tables/SimpleTable';
 import { User } from '@globalTypes/user';
-import useTable from '@hooks/useTable';
 import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import TemplateDashboard from '@templates/TemplateDashboard';
@@ -14,6 +14,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { HiPlusSm } from 'react-icons/hi';
+import { useRecoilState } from 'recoil';
 
 interface Props {
   users: User[];
@@ -22,7 +23,7 @@ interface Props {
 const heading = ['ID', 'Nome completo', 'E-mail', 'Permissão', 'Status', ''];
 
 const UserPage: NextPage<Props> = ({ users }: Props) => {
-  const { tableData, setTableData } = useTable();
+  const [tableData, setTableData] = useRecoilState(tableState);
   const [selectedUser, setSelectedUser] = useState<number | null>(null);
 
   const handleSelectUser = (id: number): void => setSelectedUser(id);

@@ -1,3 +1,4 @@
+import { userState } from '@atoms/user';
 import {
   Box,
   Container,
@@ -20,7 +21,6 @@ import ThemeToggle from '@components/ThemeToggle';
 import defaultToastOptions from '@config/toast';
 import { Profile, type User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useUser from '@hooks/useUser';
 import { sessionOptions } from '@lib/session';
 import axiosService from '@services/axios';
 import yup from '@services/yup';
@@ -35,6 +35,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import Wave from 'react-wavify';
+import { useSetRecoilState } from 'recoil';
 
 interface Form {
   username: string;
@@ -62,7 +63,7 @@ const LoginPage: NextPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const color = useColorModeValue('gray.900', 'gray.100');
   const opacity = useColorModeValue('1', '0.5');
-  const { handleSetUser } = useUser();
+  const setUser = useSetRecoilState(userState);
   const router = useRouter();
 
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
@@ -94,7 +95,7 @@ const LoginPage: NextPage = () => {
 
       const profile: Profile = await axiosService.get(`/profiles/${data.id}`);
 
-      handleSetUser({
+      setUser({
         id: data.id,
         name: profile.name,
         email: data.email,

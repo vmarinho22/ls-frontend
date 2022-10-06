@@ -1,3 +1,5 @@
+import { tableState } from '@atoms/table';
+import { userState } from '@atoms/user';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -12,11 +14,10 @@ import {
 import Button from '@components/Button';
 import defaultToastOptions from '@config/toast';
 import { Permission } from '@globalTypes/permission';
-import useTable from '@hooks/useTable';
-import useUser from '@hooks/useUser';
 import axiosInstance from '@services/axios';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface Props {
   id: number | null;
@@ -25,13 +26,13 @@ interface Props {
 }
 
 const ChangePermission: FC<Props> = ({ id, isOpen, onClose }: Props) => {
-  const { user } = useUser();
+  const user = useRecoilValue(userState);
   const [options, setOptions] = useState<Permission[]>([]);
   const [selectedPermission, setSelectedPermission] = useState<number>(
     user.permission?.id ?? -1
   );
   const cancelRef = useRef(null);
-  const { tableData, setTableData } = useTable();
+  const [tableData, setTableData] = useRecoilState(tableState);
 
   useEffect(() => {
     axiosInstance
