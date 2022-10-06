@@ -70,11 +70,7 @@ const TopBar: FC<unknown> = () => {
           <Box>
             <Link href="/perfil">
               <a>
-                <Avatar
-                  size="sm"
-                  name={user?.name ?? 'Usuário'}
-                  src={user?.profilePicture ?? ''}
-                />
+                <Avatar size="sm" name={user.name} src={user.profilePicture} />
               </a>
             </Link>
           </Box>
