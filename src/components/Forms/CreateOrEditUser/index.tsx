@@ -17,6 +17,7 @@ import { User } from '@globalTypes/user';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ptBr from '@lib/modern-calendar/pt-br';
 import axiosInstance from '@services/axios';
+import { dayjs } from '@services/dayjs';
 import { FC, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from 'react-multi-date-picker';
@@ -35,9 +36,14 @@ export interface Form {
 interface Props {
   onSubmit: (data: Form) => void;
   user?: User;
+  buttonText?: string;
 }
 
-const CreateOrEditUser: FC<Props> = ({ onSubmit, user = null }) => {
+const CreateOrEditUser: FC<Props> = ({
+  onSubmit,
+  user = null,
+  buttonText = 'Criar usuário',
+}) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [states, setStates] = useState<State[]>([]);
@@ -47,6 +53,15 @@ const CreateOrEditUser: FC<Props> = ({ onSubmit, user = null }) => {
     formState: { errors },
   } = useForm<Form>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: user?.profile?.name,
+      email: user?.email,
+      about: user?.profile?.about,
+      birthDate: dayjs(user?.profile?.birthDate).format('DD/MM/YYYY'),
+      naturalness: user?.profile?.naturalness,
+      permissionId: user?.permission?.id,
+      roleId: user?.profile?.role?.id,
+    },
   });
 
   useEffect(() => {
@@ -193,7 +208,7 @@ const CreateOrEditUser: FC<Props> = ({ onSubmit, user = null }) => {
       <br />
       <Button
         type="submit"
-        value="Criar usuário"
+        value={buttonText}
         width="100%"
         isDisabled={Object.values(errors).some((item) => item)}
       />
