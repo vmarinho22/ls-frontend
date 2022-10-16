@@ -42,6 +42,7 @@ const TopBar: FC<unknown> = () => {
 
   const handleLogout = async (): Promise<void> => {
     sessionStorage.clear();
+    localStorage.clear();
 
     await handleRequestLogout();
 
