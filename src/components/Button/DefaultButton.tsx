@@ -10,6 +10,8 @@ interface IColorScheme {
     hover: {
       bg: string;
     };
+    border: string;
+    borderColor: string;
   };
 }
 
@@ -20,6 +22,8 @@ const ColorScheme: IColorScheme = {
     hover: {
       bg: 'blue-sys.200',
     },
+    border: '',
+    borderColor: '',
   },
   secondary: {
     bg: '#fff',
@@ -27,6 +31,8 @@ const ColorScheme: IColorScheme = {
     hover: {
       bg: '#f5f5f5',
     },
+    border: '1px solid',
+    borderColor: 'blue-sys.100',
   },
 };
 
@@ -79,6 +85,8 @@ const DefaultButton: FC<Props> = (props: Props) => {
       loadingText={loadingText}
       isDisabled={isDisabled}
       size={size}
+      border={ColorScheme[colorMode].border}
+      borderColor={ColorScheme[colorMode].borderColor}
     >
       {value}
     </Button>
