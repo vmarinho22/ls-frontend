@@ -17,7 +17,7 @@ interface Props {
 
 const heading = ['ID', 'Título', 'Quantidade de permissões', ''];
 
-const UserPage: NextPage<Props> = ({ permissions }: Props) => {
+const PermissionsPage: NextPage<Props> = ({ permissions }: Props) => {
   const tableHead = heading.map((item: string) => ({ title: item }));
 
   return (
@@ -50,7 +50,7 @@ const UserPage: NextPage<Props> = ({ permissions }: Props) => {
   );
 };
 
-export default UserPage;
+export default PermissionsPage;
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
