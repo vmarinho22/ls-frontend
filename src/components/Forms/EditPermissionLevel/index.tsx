@@ -2,9 +2,7 @@ import {
   Checkbox,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   HStack,
-  Input,
   VStack,
 } from '@chakra-ui/react';
 import Button from '@components/Button';
@@ -13,9 +11,7 @@ import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import schema from './schema';
 
-export interface Form {
-  id: string | number;
-  page: string;
+interface Form {
   create: boolean;
   read: boolean;
   update: boolean;
@@ -23,49 +19,28 @@ export interface Form {
 }
 
 interface Props {
+  initialValues: Form;
   onChange: (data: Form) => void;
 }
 
-const AddPermissionLevel: FC<Props> = ({ onChange }) => {
+const EditPermissionLevel: FC<Props> = ({ initialValues, onChange }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<Form>({
     resolver: yupResolver(schema),
+    defaultValues: initialValues,
   });
 
-  const onSubmit = (data: Form): void => {
+  const onSubmit = async (data: Form): Promise<void> => {
     onChange(data);
-    reset({
-      page: '',
-      create: false,
-      read: false,
-      update: false,
-      delete: false,
-    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack align="left" spacing={4}>
-        <FormControl isInvalid={'page' in errors}>
-          <FormLabel>Página</FormLabel>
-          <Controller
-            name="page"
-            control={control}
-            render={({ field }) => (
-              <Input
-                placeholder="URL path da página (Exp.: users ou permissions)"
-                type="text"
-                {...field}
-              />
-            )}
-          />
-          <FormErrorMessage>{errors?.page?.message}</FormErrorMessage>
-        </FormControl>
-        <HStack spacing={10} align="left">
+        <HStack spacing={2} align="left">
           <FormControl isInvalid={'create' in errors}>
             <Controller
               name="create"
@@ -140,7 +115,7 @@ const AddPermissionLevel: FC<Props> = ({ onChange }) => {
         </HStack>
         <Button
           type="submit"
-          value="Adicionar level de permissão"
+          value="Atualizar level de permissão"
           width="100%"
           colorMode="secondary"
           isDisabled={Object.values(errors).some((item) => item)}
@@ -150,4 +125,4 @@ const AddPermissionLevel: FC<Props> = ({ onChange }) => {
   );
 };
 
-export default AddPermissionLevel;
+export default EditPermissionLevel;
