@@ -9,7 +9,7 @@ const config = {
   components: {
     Heading: {
       baseStyle: {
-        fontWeight: 600,
+        fontWeight: 700,
       },
     },
   },
@@ -26,6 +26,10 @@ const config = {
         bg: mode('#FFFAFB', '#0f0f0f'),
       },
     },
+  },
+  fonts: {
+    heading: 'Overpass',
+    body: 'Noto Sans',
   },
 };
 
