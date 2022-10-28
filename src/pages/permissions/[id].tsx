@@ -34,13 +34,11 @@ const ViewPermissionsPage: NextPage<Props> = ({ permission }: Props) => {
     >
       <Flex>
         <Link href={`/permissions/edit/${permission.id}`}>
-          <a>
-            <Button
-              value="Editar permissão"
-              size="sm"
-              icon={<HiPencil size="1.5em" />}
-            />
-          </a>
+          <Button
+            value="Editar permissão"
+            size="sm"
+            icon={<HiPencil size="1.5em" />}
+          />
         </Link>
       </Flex>
       <SimpleTable

@@ -23,11 +23,9 @@ const Home: NextPage = () => {
           <Box>Logo aqui</Box>
         </ScaleFade>
         <Link href="/login">
-          <a>
-            <ScaleFade initialScale={0.9} in={true}>
-              <Button value="Clique para Entrar" />
-            </ScaleFade>
-          </a>
+          <ScaleFade initialScale={0.9} in={true}>
+            <Button value="Clique para Entrar" />
+          </ScaleFade>
         </Link>
         <Box width="100%" position="absolute" bottom="0">
           <Wave

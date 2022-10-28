@@ -69,21 +69,17 @@ const TopBar: FC<unknown> = () => {
         <Flex gap={2} alignItems="center">
           <Box>
             <Link href="/perfil">
-              <a>
-                <Avatar
-                  size="sm"
-                  name={user.name ?? 'Usuário'}
-                  src={user.profilePicture ?? ''}
-                />
-              </a>
+              <Avatar
+                size="sm"
+                name={user.name ?? 'Usuário'}
+                src={user.profilePicture ?? ''}
+              />
             </Link>
           </Box>
           <Box>
             <Link href="/perfil">
-              <a>
-                <Text fontSize="sm">{user?.name ?? 'Usuário'}</Text>
-                <Text fontSize="10px">{user?.role ?? 'Cargo'}</Text>
-              </a>
+              <Text fontSize="sm">{user?.name ?? 'Usuário'}</Text>
+              <Text fontSize="10px">{user?.role ?? 'Cargo'}</Text>
             </Link>
           </Box>
           <Box>
@@ -97,9 +93,7 @@ const TopBar: FC<unknown> = () => {
               </MenuButton>
               <MenuList>
                 <Link href="/perfil">
-                  <a>
-                    <MenuItem fontSize="12px">Ver perfil</MenuItem>
-                  </a>
+                  <MenuItem fontSize="12px">Ver perfil</MenuItem>
                 </Link>
                 <MenuDivider />
                 <MenuItem fontSize="12px" onClick={handleLogout}>

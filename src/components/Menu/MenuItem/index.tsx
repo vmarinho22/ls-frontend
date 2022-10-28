@@ -21,44 +21,42 @@ const MenuItem: FC<Props> = ({
 }: Props) => {
   return (
     <Link href={link}>
-      <a>
-        <Flex
-          id={id}
-          align="center"
-          gap={2}
-          justify={isExpanded ? 'flex-start' : 'center'}
-          cursor="pointer"
-          padding={
-            isCurrent
-              ? `5px 0px 5px ${isExpanded ? '1rem' : '0px'}`
-              : `0px 0px 0px ${isExpanded ? '1rem' : '0px'}`
+      <Flex
+        id={id}
+        align="center"
+        gap={2}
+        justify={isExpanded ? 'flex-start' : 'center'}
+        cursor="pointer"
+        padding={
+          isCurrent
+            ? `5px 0px 5px ${isExpanded ? '1rem' : '0px'}`
+            : `0px 0px 0px ${isExpanded ? '1rem' : '0px'}`
+        }
+        fontWeight={600}
+        _hover={{
+          color: 'blue-sys.200',
+        }}
+        bg={isCurrent ? '#e9e9e9' : 'transparent'}
+        borderRadius={isCurrent ? '10px' : '0'}
+        transition="0.5s ease"
+      >
+        <Box
+          padding="3px"
+          border="1px solid rgba( 255, 255, 255, 0.18 )"
+          borderRadius={10}
+          color={isCurrent ? 'white-sys.200' : 'blue-sys.100'}
+          bg={isCurrent ? 'blue-sys.100' : 'rgba( 255, 255, 255, 0.25 )'}
+          boxShadow={
+            isCurrent ? 'none' : '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'
           }
-          fontWeight={600}
-          _hover={{
-            color: 'blue-sys.200',
-          }}
-          bg={isCurrent ? '#e9e9e9' : 'transparent'}
-          borderRadius={isCurrent ? '10px' : '0'}
-          transition="0.5s ease"
+          backdropFilter="blur( 4px )"
         >
-          <Box
-            padding="3px"
-            border="1px solid rgba( 255, 255, 255, 0.18 )"
-            borderRadius={10}
-            color={isCurrent ? 'white-sys.200' : 'blue-sys.100'}
-            bg={isCurrent ? 'blue-sys.100' : 'rgba( 255, 255, 255, 0.25 )'}
-            boxShadow={
-              isCurrent ? 'none' : '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )'
-            }
-            backdropFilter="blur( 4px )"
-          >
-            <Link href={link}>{icon}</Link>
-          </Box>
-          <Box display={isExpanded ? 'flex' : 'none'}>
-            <Text opacity={isExpanded ? '100' : '0'}>{text}</Text>
-          </Box>
-        </Flex>
-      </a>
+          <Link href={link}>{icon}</Link>
+        </Box>
+        <Box display={isExpanded ? 'flex' : 'none'}>
+          <Text opacity={isExpanded ? '100' : '0'}>{text}</Text>
+        </Box>
+      </Flex>
     </Link>
   );
 };

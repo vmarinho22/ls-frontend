@@ -70,13 +70,11 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
     >
       <Flex>
         <Link href="/users/create">
-          <a>
-            <Button
-              value="Adicionar usuário"
-              size="sm"
-              icon={<HiPlusSm size="1.5em" />}
-            />
-          </a>
+          <Button
+            value="Adicionar usuário"
+            size="sm"
+            icon={<HiPlusSm size="1.5em" />}
+          />
         </Link>
       </Flex>
       <SimpleTable title="users" heading={tableHead} data={tableData} />
