@@ -2,7 +2,7 @@ import { Box, Center, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { BiHome } from 'react-icons/bi';
-import { HiOutlineUsers } from 'react-icons/hi';
+import { HiOutlineIdentification, HiOutlineUsers } from 'react-icons/hi';
 import { TbLockOpen } from 'react-icons/tb';
 import MenuItem from './MenuItem';
 
@@ -66,6 +66,14 @@ const Menu: FC<any> = () => {
             isExpanded={isExpanded}
             isCurrent={asPath.includes('/permissions')}
             link="/permissions"
+          />
+          <MenuItem
+            id="menu-roles"
+            text="Cargos"
+            icon={<HiOutlineIdentification size="1.3em" />}
+            isExpanded={isExpanded}
+            isCurrent={asPath.includes('/roles')}
+            link="/roles"
           />
         </VStack>
       </Box>
