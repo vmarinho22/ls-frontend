@@ -1,4 +1,13 @@
-import { Box, Center, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  ScaleFade,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { BiHome } from 'react-icons/bi';
@@ -37,7 +46,21 @@ const Menu: FC<any> = () => {
       <Box id="logo">
         {/* TODO: Colocar logo aqui */}
         <Center>
-          <Text>{`L${isExpanded ? 'OGO' : ''}`}</Text>
+          <Flex align="center" gap="2">
+            <Image
+              src="/logo-icone.png"
+              alt="Learning Sys - Sistema de gestão de treinamentos"
+              width={50}
+              height={50}
+            />
+            {isExpanded && (
+              <ScaleFade initialScale={0.9} in={true}>
+                <Heading size="sm" color="blue-sys.100">
+                  Learning System
+                </Heading>
+              </ScaleFade>
+            )}
+          </Flex>
         </Center>
       </Box>
       <Box mb="3.5rem" />

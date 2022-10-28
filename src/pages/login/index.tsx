@@ -28,6 +28,7 @@ import axios from 'axios';
 import { withIronSessionSsr } from 'iron-session/next';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -36,6 +37,7 @@ import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import Wave from 'react-wavify';
 import { useSetRecoilState } from 'recoil';
+import { useMediaQuery } from 'usehooks-ts';
 
 interface Form {
   username: string;
@@ -65,6 +67,7 @@ const LoginPage: NextPage = () => {
   const opacity = useColorModeValue('1', '0.5');
   const setUser = useSetRecoilState(userState);
   const router = useRouter();
+  const isMobile = useMediaQuery('(max-width: 480px)');
 
   const handleShowPassword = (): void => setShowPassword((prev) => !prev);
 
@@ -132,7 +135,21 @@ const LoginPage: NextPage = () => {
       <Flex mt="3px" direction="row-reverse">
         <ThemeToggle />
       </Flex>
-      <Flex align="center" justify="center" width="100%" minHeight="96.9vh">
+      <Flex
+        direction={['column', 'row']}
+        align="center"
+        justify="center"
+        width="100%"
+        minHeight="96.9vh"
+      >
+        <ScaleFade initialScale={0.9} in={true}>
+          <Image
+            src="/logo-completa.png"
+            alt="Learning Sys - Sistema de gestão de treinamentos"
+            width={350}
+            height={350}
+          />
+        </ScaleFade>
         <ScaleFade initialScale={0.6} in={true}>
           <VStack align="left">
             <Heading color="blue-sys.100">Aqui você pode fazer Login</Heading>
@@ -226,7 +243,7 @@ const LoginPage: NextPage = () => {
             fill="#1098F7"
             paused={false}
             options={{
-              height: 40,
+              height: isMobile ? 80 : 40,
               amplitude: 40,
               speed: 0.15,
               points: 5,

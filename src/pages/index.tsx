@@ -2,6 +2,7 @@ import { Box, Container, Flex, ScaleFade } from '@chakra-ui/react';
 import Button from '@components/Button';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import Wave from 'react-wavify';
 
@@ -20,7 +21,12 @@ const Home: NextPage = () => {
         gap={6}
       >
         <ScaleFade initialScale={0.9} in={true}>
-          <Box>Logo aqui</Box>
+          <Image
+            src="/logo-completa.png"
+            alt="Learning Sys - Sistema de gestão de treinamentos"
+            width={350}
+            height={350}
+          />
         </ScaleFade>
         <Link href="/login">
           <ScaleFade initialScale={0.9} in={true}>

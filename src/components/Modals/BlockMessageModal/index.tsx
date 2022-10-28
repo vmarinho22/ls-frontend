@@ -33,7 +33,8 @@ const BlockMessageModal: FC = () => {
           if (res.isBlocked) {
             onOpen();
           }
-        });
+        })
+        .catch(() => null);
     }, 60000); // 1 min
 
     return () => clearInterval(interval);
