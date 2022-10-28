@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
+import { HiDotsHorizontal } from 'react-icons/hi';
 
 interface Props {
   id?: string;
@@ -16,7 +17,7 @@ const MenuItem: FC<Props> = ({
   icon,
   text,
   isExpanded = false,
-  link,
+  link = '/',
   isCurrent = false,
 }: Props) => {
   return (
@@ -51,7 +52,7 @@ const MenuItem: FC<Props> = ({
           }
           backdropFilter="blur( 4px )"
         >
-          <Link href={link}>{icon}</Link>
+          <Link href={link}>{icon ?? <HiDotsHorizontal />}</Link>
         </Box>
         <Box display={isExpanded ? 'flex' : 'none'}>
           <Text opacity={isExpanded ? '100' : '0'}>{text}</Text>
