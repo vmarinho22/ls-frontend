@@ -210,12 +210,10 @@ const LoginPage: NextPage = () => {
                     width="100%"
                     isDisabled={Object.values(errors).some((item) => item)}
                   />
-                  <Link href="/recuperar-senha">
-                    <a target="blank">
-                      <Text color={color} opacity={opacity}>
-                        Esqueci minha senha
-                      </Text>
-                    </a>
+                  <Link href="/recuperar-senha" target="_blank">
+                    <Text color={color} opacity={opacity}>
+                      Esqueci minha senha
+                    </Text>
                   </Link>
                 </VStack>
               </ScaleFade>

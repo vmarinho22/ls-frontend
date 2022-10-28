@@ -9,14 +9,14 @@ import theme from '../theme';
 
 const App: any = ({ Component, pageProps }: AppProps) => {
   return (
-    <RecoilRoot>
-      <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+      <RecoilRoot>
         <React.Suspense fallback={<div>Loading...</div>}>
           <Component {...pageProps} />
         </React.Suspense>
         <ToastContainer />
-      </ChakraProvider>
-    </RecoilRoot>
+      </RecoilRoot>
+    </ChakraProvider>
   );
 };
 

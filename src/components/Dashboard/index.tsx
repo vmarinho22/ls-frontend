@@ -1,9 +1,11 @@
 import { Box, Flex } from '@chakra-ui/react';
-import Menu from '@components/Menu';
 import dynamic from 'next/dynamic';
 import { FC, ReactNode } from 'react';
 
 const TopBar = dynamic(async () => await import('@components/TopBar'), {
+  ssr: false,
+});
+const Menu = dynamic(async () => await import('@components/Menu'), {
   ssr: false,
 });
 
