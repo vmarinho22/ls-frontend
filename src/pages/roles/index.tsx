@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Button from '@components/Button';
-import AddOrEditRole, { Edit } from '@components/Forms/AddOrEditRole';
+import RoleForm, { Edit } from '@components/Forms/AddOrEdit/RoleForm';
 import SimpleTable from '@components/Tables/SimpleTable';
 import { Role } from '@globalTypes/role';
 import { sessionOptions } from '@lib/session';
@@ -109,7 +109,7 @@ const RolesPage: NextPage<Props> = ({ roles }: Props) => {
           } cargo`}</DrawerHeader>
 
           <DrawerBody>
-            <AddOrEditRole onSubmitted={onCreatedRole} edit={selectedRole} />
+            <RoleForm onSubmitted={onCreatedRole} edit={selectedRole} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

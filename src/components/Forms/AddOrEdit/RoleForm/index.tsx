@@ -32,7 +32,7 @@ interface Props {
   edit?: Edit | null;
 }
 
-const AddOrEditRole: FC<Props> = ({ onSubmitted, edit = null }) => {
+const RoleForm: FC<Props> = ({ onSubmitted, edit = null }) => {
   const {
     control,
     handleSubmit,
@@ -132,4 +132,4 @@ const AddOrEditRole: FC<Props> = ({ onSubmitted, edit = null }) => {
   );
 };
 
-export default AddOrEditRole;
+export default RoleForm;
