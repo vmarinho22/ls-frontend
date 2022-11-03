@@ -11,7 +11,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { BiHome } from 'react-icons/bi';
-import { HiOutlineIdentification, HiOutlineUsers } from 'react-icons/hi';
+import {
+  HiOutlineAcademicCap,
+  HiOutlineIdentification,
+  HiOutlineUsers,
+} from 'react-icons/hi';
 import { TbLockOpen } from 'react-icons/tb';
 import MenuItem from './MenuItem';
 
@@ -73,6 +77,14 @@ const Menu: FC<any> = () => {
             isExpanded={isExpanded}
             isCurrent={asPath.includes('/inicio')}
             link="/inicio"
+          />
+          <MenuItem
+            id="menu-trainings"
+            text="Treinamentos"
+            icon={<HiOutlineAcademicCap size="1.3em" />}
+            isExpanded={isExpanded}
+            isCurrent={asPath.includes('/trainings')}
+            link="/trainings"
           />
           <MenuItem
             id="menu-users"
