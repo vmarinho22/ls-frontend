@@ -48,7 +48,6 @@ const Menu: FC<any> = () => {
       onMouseLeave={handleExpandMenu}
     >
       <Box id="logo">
-        {/* TODO: Colocar logo aqui */}
         <Center>
           <Flex align="center" gap="2">
             <Image
