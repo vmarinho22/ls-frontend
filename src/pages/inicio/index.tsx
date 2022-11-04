@@ -1,3 +1,4 @@
+import TrainingsHome from '@components/Views/TrainingsHome';
 import TemplateDashboard from '@templates/TemplateDashboard';
 import { NextPage } from 'next';
 
@@ -7,7 +8,8 @@ const HomePage: NextPage = () => {
       title="Inicio"
       about="Aqui você pode ver um resumo do treinamentos a vencer, últimos treinamento e muitos mais..."
     >
-      <p>Implementação futura</p>
+      <br />
+      <TrainingsHome />
     </TemplateDashboard>
   );
 };
