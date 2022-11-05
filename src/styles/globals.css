@@ -20,5 +20,9 @@ a {
 }
 
 .mySwiper {
-  width: 98%;
+  width: 100%;
+}
+
+.swiper-wrapper {
+  width: 85vw !important;
 }

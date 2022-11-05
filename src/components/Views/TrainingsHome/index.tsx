@@ -7,9 +7,14 @@ import axiosInstance from '@services/axios';
 import { dayjs } from '@services/dayjs';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Pagination } from 'swiper';
+import { Scrollbar } from 'swiper';
 import 'swiper/css';
+import 'swiper/css/scrollbar';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+interface SwiperProps {
+  children: React.ReactNode;
+}
 
 const TrainingsHome: FC = () => {
   const [trainings, setTrainings] = useState<TrainingHistory[]>([]);
@@ -44,22 +49,14 @@ const TrainingsHome: FC = () => {
   );
 
   return (
-    <Box as="section" id="TrainingsHome">
+    <Box as="section" id="TrainingsHome" width="80%">
       <Heading size="lg" mb="8px">
         Treinamento a vencer
       </Heading>
       {filteredTrainings?.length === 0 ? (
         <Text>Nenhum treinamento a vencer nos próximos 45 dias.</Text>
       ) : (
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={4}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper"
-        >
+        <SwiperContainer>
           {filteredTrainings.map((item) => (
             <SwiperSlide key={item.id}>
               <TrainingsToWinCard
@@ -72,23 +69,15 @@ const TrainingsHome: FC = () => {
               />
             </SwiperSlide>
           ))}
-        </Swiper>
+        </SwiperContainer>
       )}
       <br />
       <br />
       <Heading size="lg" mb="8px">
         Últimos treinamentos realizados
       </Heading>
-      <Swiper
-        spaceBetween={10}
-        slidesPerView={3}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-        className="mySwiper"
-      >
-        {[...trainings].slice(-6).map((item) => (
+      <SwiperContainer>
+        {[...trainings].slice(-10).map((item) => (
           <SwiperSlide key={item.id}>
             <RecentAddedTrainings
               name={item.user.profile?.name ?? ''}
@@ -100,9 +89,23 @@ const TrainingsHome: FC = () => {
             />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </SwiperContainer>
     </Box>
   );
 };
 
 export default TrainingsHome;
+
+const SwiperContainer: FC<SwiperProps> = ({ children }) => (
+  <Swiper
+    spaceBetween={15}
+    slidesPerView={3}
+    scrollbar={{
+      hide: true,
+    }}
+    modules={[Scrollbar]}
+    className="mySwiper"
+  >
+    {children}
+  </Swiper>
+);

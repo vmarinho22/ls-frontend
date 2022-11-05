@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { dayjs } from '@services/dayjs';
 import { OpUnitType, QUnitType } from 'dayjs';
 import { FC } from 'react';
@@ -22,12 +22,14 @@ const TrainingSimpleCard: FC<Props> = ({
   validity,
   validityUnit = 'days',
 }) => {
+  const bgColor = useColorModeValue('#edebeb', '#292929');
+
   return (
     <Box
       width="100%"
       minHeight="16vh"
       height="100%"
-      bg="#292929"
+      bg={bgColor}
       borderRadius="1em"
       padding="1em"
     >
