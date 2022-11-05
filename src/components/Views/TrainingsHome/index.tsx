@@ -103,6 +103,11 @@ const SwiperContainer: FC<SwiperProps> = ({ children }) => (
     scrollbar={{
       hide: true,
     }}
+    loop={true}
+    autoplay={{
+      delay: 2500,
+      disableOnInteraction: false,
+    }}
     modules={[Scrollbar]}
     className="mySwiper"
   >
