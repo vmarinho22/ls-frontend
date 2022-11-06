@@ -2,6 +2,7 @@ import TrainingSimpleCard from '@components/Cards/TrainingSimpleCard';
 import { FC } from 'react';
 
 interface Props {
+  userId: number;
   name: string;
   userPicture: string;
   about: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const RecentAddedTrainings: FC<Props> = ({
+  userId,
   name,
   userPicture,
   about,
@@ -20,6 +22,7 @@ const RecentAddedTrainings: FC<Props> = ({
 }) => {
   return (
     <TrainingSimpleCard
+      userId={userId}
       name={name}
       userPicture={userPicture}
       about={about}

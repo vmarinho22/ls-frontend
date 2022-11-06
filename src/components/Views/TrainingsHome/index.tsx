@@ -60,6 +60,7 @@ const TrainingsHome: FC = () => {
           {filteredTrainings.map((item) => (
             <SwiperSlide key={item.id}>
               <TrainingsToWinCard
+                userId={item.user.id}
                 name={item.user.profile?.name ?? ''}
                 userPicture={item.user.profile?.userPicture ?? ''}
                 about={item.user.profile?.about ?? ''}
@@ -80,6 +81,7 @@ const TrainingsHome: FC = () => {
         {[...trainings].slice(-10).map((item) => (
           <SwiperSlide key={item.id}>
             <RecentAddedTrainings
+              userId={item.user.id}
               name={item.user.profile?.name ?? ''}
               userPicture={item.user.profile?.userPicture ?? ''}
               about={item.user.profile?.about ?? ''}

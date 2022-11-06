@@ -1,9 +1,12 @@
+import { selectedUserState, userDrawerState } from '@atoms/user';
 import { Avatar, Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { dayjs } from '@services/dayjs';
 import { OpUnitType, QUnitType } from 'dayjs';
 import { FC } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 interface Props {
+  userId: number;
   name: string;
   userPicture: string;
   about: string;
@@ -14,6 +17,7 @@ interface Props {
 }
 
 const TrainingSimpleCard: FC<Props> = ({
+  userId,
   name,
   userPicture,
   about,
@@ -23,6 +27,13 @@ const TrainingSimpleCard: FC<Props> = ({
   validityUnit = 'days',
 }) => {
   const bgColor = useColorModeValue('#edebeb', '#292929');
+  const setUser = useSetRecoilState(selectedUserState);
+  const openUserDrawer = useSetRecoilState(userDrawerState);
+
+  const handleOpenUserProfile = (): void => {
+    setUser(userId);
+    openUserDrawer(true);
+  };
 
   return (
     <Box
@@ -36,7 +47,9 @@ const TrainingSimpleCard: FC<Props> = ({
       <Flex gap={3} mb="15px" align="stretch">
         <Avatar name={name} src={userPicture} />
         <Box>
-          <Text>{name}</Text>
+          <Text cursor="pointer" onClick={handleOpenUserProfile}>
+            {name}
+          </Text>
           <Text fontSize="xs">{`${about.substring(0, 45) ?? ''} ${
             about.length > 45 ? '...' : ''
           }`}</Text>
