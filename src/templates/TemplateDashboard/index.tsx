@@ -1,3 +1,4 @@
+import { selectedUserState } from '@atoms/user';
 import {
   Box,
   Heading,
@@ -6,8 +7,10 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Dashboard from '@components/Dashboard/index';
+import UserProfile from '@components/Drawers/UserProfile';
 import Head from 'next/head';
 import { FC, ReactNode } from 'react';
+import { useRecoilValue } from 'recoil';
 
 interface Props {
   title: string;
@@ -17,6 +20,7 @@ interface Props {
 
 const TemplateDashboard: FC<Props> = ({ title, about, children }: Props) => {
   const textColor = useColorModeValue('#aaaaaa', '#8a8a8a');
+  const hasSelectedUser = useRecoilValue(selectedUserState);
 
   return (
     <Box id="template-default">
@@ -31,6 +35,7 @@ const TemplateDashboard: FC<Props> = ({ title, about, children }: Props) => {
           <Text color={textColor}>{about}</Text>
           {children}
         </VStack>
+        {hasSelectedUser !== null && <UserProfile />}
       </Dashboard>
     </Box>
   );

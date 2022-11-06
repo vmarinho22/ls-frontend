@@ -19,3 +19,13 @@ export const userState = atom<UserTypeContext>({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+export const selectedUserState = atom<number | null>({
+  key: 'selectedUserState',
+  default: null,
+});
+
+export const userDrawerState = atom<boolean>({
+  key: 'userDrawerState',
+  default: false,
+});
