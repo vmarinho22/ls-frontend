@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Logo](https://res.cloudinary.com/marinho/image/upload/v1667759446/Project%20View/logo_doc_gpah97.png)
 
-## Getting Started
+# Lsys System - Sistema para gerenciar treinamentos
 
-First, run the development server:
+Um projeto da faculdade sobre um sistema de controle de treinamentos (de diversos tipos) de funcionários para RH de empresas.
+
+## Stack utilizada
+
+**Front-end:** React, NextJS, Chakra UI, Recoil JS
+
+**Back-end:** Nest JS, Docker
+
+## Funcionalidades
+
+- Stack Moderna
+- Temas dark e light
+- Manejo de usuários
+- Manejo de treinamentos
+- Manejo de cargos
+- Multiplataforma
+
+## Rodando localmente
+
+Para instalar as dependências e rodar o projeto, você precisar ter instalado:
+
+- Node JS v16+
+- Yarn Package Manager
+
+Antes de iniciar esse projeto, é necessário ter o [Backend](https://github.com/vmarinho22/ls-backend) rodando em seu servidor/PC!
+
+Clone o projeto
 
 ```bash
-npm run dev
-# or
-yarn dev
+  git clone https://github.com/vmarinho22/ls-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Entre no diretório do projeto
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd ls-frontend
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Instale as dependências
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+  yarn //or yarn install
+```
 
-## Learn More
+Clone o arquivo `.env.local.example`, renomeie para `.env.local or .env` e insira as informações necessárias nas variáveis de ambiente.
 
-To learn more about Next.js, take a look at the following resources:
+### Iniciando no modo de desenvolvimento
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Após a instalação das dependências, inicie o servidor Next JS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+  yarn dev
+```
 
-## Deploy on Vercel
+### Iniciando no modo de produção
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Após a instalação das dependências, realize o build do projeto:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+  yarn build
+```
+
+E quando finalizar, inicie o servidor Next JS
+
+```bash
+  yarn start
+```
+
+## Autores
+
+- [@vmarinho22](https://www.github.com/vmarinho22)
+
+## Screenshots
+
+![App Screenshot](https://res.cloudinary.com/marinho/image/upload/v1667759095/Project%20View/Captura_de_tela_de_2022-11-06_15-24-11_jychra.png)
+
+![App Screenshot](https://res.cloudinary.com/marinho/image/upload/v1667759095/Project%20View/Captura_de_tela_de_2022-11-06_15-23-43_b0z7b3.png)
+
+![App Screenshot](https://res.cloudinary.com/marinho/image/upload/v1667759095/Project%20View/Captura_de_tela_de_2022-11-06_15-23-28_jecms1.png)
