@@ -26,7 +26,7 @@ const CreateUserPage: NextPage = () => {
         const profile = await axiosInstance.post('/profiles', {
           name: data.name,
           about: data.about,
-          birthDate: new Date(+date[2], +date[1], +date[0]),
+          birthDate: new Date(+date[2], +date[1], +date[0]), // year - month - day
           naturalness: data.naturalness,
           roleId: data.roleId,
           userId: user.id,

@@ -2,6 +2,8 @@ import { tableState } from '@atoms/table';
 import { Flex, useDisclosure } from '@chakra-ui/react';
 import UserActions from '@components/Actions/UserActions';
 import Button from '@components/Button';
+import AddTrainingToUser from '@components/Drawers/AddTrainingToUser';
+import { Form } from '@components/Forms/AddTrainingToUser';
 import ChangePermission from '@components/Modals/ChangePermission';
 import SetBlockModal from '@components/Modals/SetBlockModal';
 import SimpleTable from '@components/Tables/SimpleTable';
@@ -14,7 +16,11 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { HiPlusSm } from 'react-icons/hi';
-import { useRecoilState } from 'recoil';
+import { toast } from 'react-toastify';
+import { useRecoilState } from 'recoil'
+import defaultToastOptions from '@config/toast';
+import axiosInstance from '@services/axios';
+import { TrainingHistory } from '@globalTypes/training';
 
 interface Props {
   users: User[];
@@ -35,9 +41,15 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
   } = useDisclosure();
 
   const {
-    onOpen: onChangePermissionOpen,
-    onClose: onChangePermissionClose,
+    onOpen: onOpenPermissionOpen,
+    onClose: onOpenPermissionClose,
     isOpen: isChangePermissionOpen,
+  } = useDisclosure();
+
+  const {
+    onOpen: onOpenAddTraining,
+    onClose: onCloseAddTraining,
+    isOpen: isOpenAddTraining,
   } = useDisclosure();
 
   useEffect(() => {
@@ -54,14 +66,39 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
             onSelect={handleSelectUser}
             isBlock={user.isBlocked}
             openBlockModal={onBlockOpen}
-            openChangePermission={onChangePermissionOpen}
+            openChangePermission={onOpenPermissionOpen}
+            onOpenAddTraining={onOpenAddTraining}
           />
         ),
       }))
     );
-  }, [onBlockOpen, onChangePermissionOpen, setTableData, users]);
+  }, [onBlockOpen, onOpenPermissionOpen, setTableData, users]);
 
   const tableHead = heading.map((item: string) => ({ title: item }));
+
+  const handleAddTrainingToUser = async (data: Form) => {
+    try {
+      const [year, month, day] = data.endedIn.split('/');
+
+      const createdTrainingHistory: TrainingHistory = await axiosInstance.post('/trainings-history', {
+        userId: selectedUser,
+        trainingId: data.trainingId,
+        endedIn: new Date(+year, +month, +day), // year - month - day
+      });
+
+      if ('id' in createdTrainingHistory) {
+        toast.success(`Treinamento adicionado com sucesso`, defaultToastOptions);
+        onCloseAddTraining();
+      }
+    } catch (err: any) {
+      if ('response' in err) {
+        const axiosError = err.response.data;
+        toast.error(axiosError.message, defaultToastOptions);
+      } else {
+        toast.error(err?.message, defaultToastOptions);
+      }
+    }
+  }
 
   return (
     <TemplateDashboard
@@ -77,16 +114,26 @@ const UserPage: NextPage<Props> = ({ users }: Props) => {
           />
         </Link>
       </Flex>
+
       <SimpleTable title="users" heading={tableHead} data={tableData} />
+
       <ChangePermission
         id={selectedUser}
         isOpen={isChangePermissionOpen}
-        onClose={onChangePermissionClose}
+        onClose={onOpenPermissionClose}
       />
+
       <SetBlockModal
         id={selectedUser}
         isOpen={isBlockOpen}
         onClose={onBlockClose}
+      />
+
+      <AddTrainingToUser 
+        id={selectedUser} 
+        isOpen={isOpenAddTraining}
+        onClose={onCloseAddTraining} 
+        onSubmit={handleAddTrainingToUser}
       />
     </TemplateDashboard>
   );
