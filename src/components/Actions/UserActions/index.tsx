@@ -13,6 +13,7 @@ import {
   HiKey,
   HiLockClosed,
   HiLockOpen,
+  HiOutlineDocumentAdd,
   HiOutlineEye,
   HiPencil,
 } from 'react-icons/hi';
@@ -24,6 +25,7 @@ interface Props {
   isBlock: boolean;
   openBlockModal: () => void;
   openChangePermission: () => void;
+  onOpenAddTraining: () => void;
 }
 
 const UserActions: FC<Props> = ({
@@ -32,6 +34,7 @@ const UserActions: FC<Props> = ({
   isBlock,
   openBlockModal,
   openChangePermission,
+  onOpenAddTraining
 }: Props) => {
   const user = useRecoilValue(userState);
   const setUser = useSetRecoilState(selectedUserState);
@@ -54,6 +57,17 @@ const UserActions: FC<Props> = ({
         <MenuItem icon={<HiOutlineEye />} onClick={handleOpenUserProfile}>
           Ver perfil
         </MenuItem>
+        {user.isSuperAdmin && (
+          <MenuItem
+            icon={<HiOutlineDocumentAdd />}
+            onClick={() => {
+              onSelect(id);
+              onOpenAddTraining();
+            }}
+          >
+            Adicionar treinamento
+          </MenuItem>
+        )}
         {user.isSuperAdmin && (
           <MenuItem
             icon={<HiKey />}
